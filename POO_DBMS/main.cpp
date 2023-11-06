@@ -5,4 +5,5 @@ int main()
 {
 	cout << "hello world";
 	cout << "(. Y .)";
+	cout << " opel accident";
 }
