@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 using namespace std;
 
 
@@ -6,5 +7,6 @@ class Table {
 	string name;
 
 public:
-    string getName();
+	Table();
+	string getName();
 };
