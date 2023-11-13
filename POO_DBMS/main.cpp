@@ -3,11 +3,16 @@
 #include "dataBaseClass.h"
 using namespace std;
 
-enum Comenzi { EXIT, HELP, DEFAULT };
+enum Comenzi { EXIT, HELP, CREATE_TABLE, CREATE_INDEX, DROP_TABLE, DROP_INDEX, DISPLAY_TABLE, DEFAULT };
 
 Comenzi stringToCommand(string userInput)
 {
 	if (userInput == "EXIT") return EXIT;
+	if (userInput == "CREATE TABLE") return CREATE_TABLE;
+	if (userInput == "CREATE INDEX") return CREATE_INDEX;
+	if (userInput == "DROP TABLE") return DROP_TABLE;
+	if (userInput == "DROP INDEX") return DROP_INDEX;
+	if (userInput == "DISPLAY TABLE") return DISPLAY_TABLE;
 	if (userInput == "HELP") return HELP;
 	return DEFAULT;
 }
@@ -15,9 +20,8 @@ Comenzi stringToCommand(string userInput)
 
 int main()
 {
-	Database a;
-	cout << a.getTableName();
-	testFunction();
+	Database db;
+	cout << db.getTableName();
 	Comenzi userCommands=DEFAULT;
 	string userInput;
 
@@ -38,7 +42,26 @@ int main()
 			{
 				cout << "Bye";
 			}break;
+		case(CREATE_TABLE):
+		{
+			
+		}break;
+		case(CREATE_INDEX):
+		{
 
+		}break;
+		case(DROP_TABLE):
+		{
+
+		}break;
+		case(DROP_INDEX):
+		{
+
+		}break;
+		case(DISPLAY_TABLE): 
+		{
+
+		}break;
 		default:
 			cout << "comanda necunoscuta"<<'\n';
 			break;

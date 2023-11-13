@@ -128,9 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="dataBaseClass.cpp" />
-    <ClCompile Include="getters.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="setters.cpp" />
     <ClCompile Include="tableClass.cpp" />
   </ItemGroup>
   <ItemGroup>
