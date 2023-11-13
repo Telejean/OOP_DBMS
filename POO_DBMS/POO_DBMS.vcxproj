@@ -127,13 +127,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dataBaseClass.cpp" />
     <ClCompile Include="getters.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="setters.cpp" />
+    <ClCompile Include="tableClass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dataBaseClass.h" />
     <ClInclude Include="getters.h" />
     <ClInclude Include="setters.h" />
+    <ClInclude Include="tableClass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

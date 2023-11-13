@@ -24,12 +24,24 @@
     <ClCompile Include="getters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dataBaseClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tableClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="setters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="getters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dataBaseClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tableClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
