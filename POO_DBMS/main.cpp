@@ -1,6 +1,5 @@
 #include <iostream>
-#include "getters.h"
-#include "dataBaseClass.h"
+#include "Database.h"
 using namespace std;
 
 enum Comenzi { EXIT, HELP, CREATE_TABLE, CREATE_INDEX, DROP_TABLE, DROP_INDEX, DISPLAY_TABLE, DEFAULT };
@@ -20,8 +19,16 @@ Comenzi stringToCommand(string userInput)
 
 int main()
 {
-	Database db;
-	cout << db.getTableName();
+	Attribute g = Attribute("audi", INTEGER), h= Attribute("benz", TEXT);
+
+	cout << g.getName() << " " << g.getDatatype() << endl;
+	cout << h.getName() << " " << h.getDatatype() << endl;
+	
+
+	Table t = ("masini", );
+	cout << t.getAttribute();
+	Database db = ("Vehicule Transport", t);
+	cout << db.getTables();
 	Comenzi userCommands=DEFAULT;
 	string userInput;
 
