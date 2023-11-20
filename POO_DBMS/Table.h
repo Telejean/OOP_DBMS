@@ -8,12 +8,12 @@ class Table {
 	string name;
 	Attribute attributes[40];
 public:
-	Table(string name, Attribute attributes[40]);
 	Table();
+	Table(string name, Attribute attributes[]);
 	string getName();
 	Attribute* getAttribute();
 	void setName(string name);
-	void setAttributes();
+	void setAttributes(Attribute attributes[]);
 	~Table();
 };
 

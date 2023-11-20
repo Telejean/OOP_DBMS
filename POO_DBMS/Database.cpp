@@ -30,7 +30,7 @@ Table* Database::getTables()
 void Database::setName(string name) {
 	this->name = name;
 }
-void Database::setTables(Table tables[40]) {
+void Database::setTables(Table tables[]) {
 	for (int i = 0; i < 40; i++)
 	{
 		this->tables[i] = tables[i];

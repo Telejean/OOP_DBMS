@@ -8,6 +8,10 @@ enum Datatype { INTEGER, REAL, TEXT };
 class Attribute {
 	string name;
 	Datatype type;
+	int integerData[200];
+	float floatData[200];
+	string stringData[200];
+
 public:
 	Attribute(string name, Datatype type);
 	Attribute();
@@ -15,5 +19,5 @@ public:
 	Datatype getDatatype();
 	void setName(string name);
 	void setDatatype(Datatype type);
-	~Attribute();
+
 };

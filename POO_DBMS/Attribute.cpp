@@ -15,13 +15,13 @@ using namespace std;
 	string Attribute::getName() {
 		return this->name;
 	}
-	Datatype Attribute::getDatatype(Datatype type) {
+	Datatype Attribute::getDatatype() {
 		return this->type;
 	}
 	void Attribute::setName(string name) {
 		this->name = name;
 	}
-	void Attribute::setDatatype() {
+	void Attribute::setDatatype(Datatype type) {
 		this->type = type;
 	}
 	

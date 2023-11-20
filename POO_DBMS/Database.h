@@ -14,6 +14,6 @@ public:
 	string getName();
 	Table* getTables();
 	void setName(string name);
-	void setTables(Table tables[40]);
+	void setTables(Table tables[]);
 	~Database();
 };

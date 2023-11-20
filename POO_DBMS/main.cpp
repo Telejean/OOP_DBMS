@@ -1,5 +1,7 @@
 #include <iostream>
 #include "Database.h"
+#include "Attribute.h"
+#include "Table.h"
 using namespace std;
 
 enum Comenzi { EXIT, HELP, CREATE_TABLE, CREATE_INDEX, DROP_TABLE, DROP_INDEX, DISPLAY_TABLE, DEFAULT };
@@ -15,21 +17,34 @@ Comenzi stringToCommand(string userInput)
 	if (userInput == "HELP") return HELP;
 	return DEFAULT;
 }
+Datatype stringToDataType(string userInput) {
+	if (userInput == "INTEGER") return INTEGER;
+	if (userInput == "REAL") return REAL;
+	return TEXT;
+}
 
 
 int main()
 {
-	Attribute g = Attribute("audi", INTEGER), h= Attribute("benz", TEXT);
+	//Attribute model, numarUsi;
+	//numarUsi.setName("Numar usi");
+	//numarUsi.setDatatype(INTEGER);
+	//model.setName("Model");
+	//model.setDatatype(TEXT);
 
-	cout << g.getName() << " " << g.getDatatype() << endl;
-	cout << h.getName() << " " << h.getDatatype() << endl;
+	////vector
+	//Attribute attributes[40];
+	//attributes[0] = model;
+	//attributes[1] = numarUsi;
+
+	//Table masini;
+	//masini.setAttributes(attributes);
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	cout <<"    " << attributes[i].getName();
+	//}
 	
-
-	Table t = ("masini", );
-	cout << t.getAttribute();
-	Database db = ("Vehicule Transport", t);
-	cout << db.getTables();
-	Comenzi userCommands=DEFAULT;
+	Comenzi userCommands = DEFAULT;
 	string userInput;
 
 	while (userCommands != EXIT)
@@ -41,17 +56,41 @@ int main()
 
 		switch (userCommands)
 		{
-		case(HELP):{
-			cout << "Here something useful will be written"<<'\n';
+		case(HELP): {
+			cout << "Commands: CREATE_TABLE, CREATE_INDEX, CREATE_INDEX, DROP_TABLE, DROP_INDEX, DISPLAY_TABLE, EXIT" << '\n';
 		}break;
 
 		case(EXIT):
-			{
-				cout << "Bye";
-			}break;
+		{
+			cout << "Bye";
+		}break;
 		case(CREATE_TABLE):
 		{
-			
+			int noAttributes;
+			string name;
+			Table t;
+			Attribute attributeVector[10];
+			cout << "Enter table name: ";
+			cin >> name;
+			t.setName(name);
+			cout << "Enter number of attributes: ";
+			cin >> noAttributes;
+			cin.get();
+
+
+			for (int i = 0; i < noAttributes; i++) {
+				Attribute a;
+				
+				cout << "Enter attribute " << i << "'s name: ";
+				cin >> name;
+				a.setName(name);
+				cout << "Enter data type: ";
+				cin >> userInput;
+				a.setDatatype(stringToDataType(userInput));
+				attributeVector[i] = a;
+			}
+
+
 		}break;
 		case(CREATE_INDEX):
 		{
@@ -65,12 +104,12 @@ int main()
 		{
 
 		}break;
-		case(DISPLAY_TABLE): 
+		case(DISPLAY_TABLE):
 		{
 
 		}break;
 		default:
-			cout << "comanda necunoscuta"<<'\n';
+			cout << "comanda necunoscuta" << '\n';
 			break;
 		}
 	}

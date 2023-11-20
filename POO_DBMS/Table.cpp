@@ -3,16 +3,14 @@
 #include <iostream>
 
 
-Table::Table(string name, Attribute attributes[40]) {
+Table::Table(string name, Attribute attributes[]) {
 	this->name = name;
 	for (int i = 0; i < 40; i++)
 	{
-		this->attributes[i] = attributes[i];
+		this->attributes[i].setDatatype(attributes[i].getDatatype());
 	}	
 }
-Table::Table() {
-	this->name = "";
-}
+Table::Table() = default;
 string Table::getName() {
 
 	return this->name;
@@ -24,7 +22,7 @@ void Table::setName(string name)
 {
 	this->name = name;
 }
-void Table::setAttributes(attributes[40]) {
+void Table::setAttributes(Attribute attributes[]) {
 	
 	for (int i = 0; i < 40; i++)
 	{
