@@ -26,23 +26,25 @@ Datatype stringToDataType(string userInput) {
 
 int main()
 {
-	//Attribute model, numarUsi;
-	//numarUsi.setName("Numar usi");
-	//numarUsi.setDatatype(INTEGER);
-	//model.setName("Model");
-	//model.setDatatype(TEXT);
+	/*
+	Attribute model, numarUsi;
+	numarUsi.setName("Numar usi");
+	numarUsi.setDatatype(INTEGER);
+	model.setName("Model");
+	model.setDatatype(TEXT);
 
 	////vector
-	//Attribute attributes[40];
-	//attributes[0] = model;
-	//attributes[1] = numarUsi;
+    Attribute attributes[40];
+	attributes[0] = model;
+	attributes[1] = numarUsi;
 
-	//Table masini;
-	//masini.setAttributes(attributes);
-	//for (int i = 0; i < 3; i++)
-	//{
-	//	cout <<"    " << attributes[i].getName();
-	//}
+	Table masini;
+	masini.setAttributes(attributes);
+	for (int i = 0; i < 3; i++)
+	{
+		cout <<"    " << attributes[i].getName();
+	}
+	*/
 	
 	Comenzi userCommands = DEFAULT;
 	string userInput;

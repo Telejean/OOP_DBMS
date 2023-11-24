@@ -10,7 +10,7 @@ class Attribute {
 	Datatype type;
 	int integerData[200];
 	float floatData[200];
-	string stringData[200];
+	string stringData;
 
 public:
 	Attribute(string name, Datatype type);
