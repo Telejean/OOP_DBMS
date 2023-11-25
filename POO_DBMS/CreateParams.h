@@ -11,6 +11,8 @@ class CreateParams {
 public:
 	CreateParams();
 	CreateParams(string columnName,string columnType, int columnSize, string defaultValue);
+	CreateParams(CreateParams& c);
+
 #pragma region Setters
 	void setColumnName(string columnName);
 	void setColumnType(string columnType);

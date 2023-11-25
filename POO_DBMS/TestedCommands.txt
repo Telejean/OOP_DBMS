@@ -1,0 +1,8 @@
+CREATE TABLE students IF NOT EXISTS ((id, integer, 1000, 0), (nume, text, 128, ""), (grupa, text,50,"1000"))
+INSERT INTO studenti VALUES (1, "John", "1001" , "big")
+CREATE TABLE students IF NOT EXISTS ((id, integer, 1000, 0), (nume, text, 128, ""), (grupa, text, 50, "1000"))
+DELETE FROM studenti WHERE nume = "John"
+DROP TABLE studenti
+DISPLAY TABLE studenti
+SELECT (id,nume,grupa) FROM studenti WHERE id = 1
+UPDATE studenti SET nume = "Alice" WHERE id = 1

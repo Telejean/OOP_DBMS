@@ -17,6 +17,13 @@ CreateParams::CreateParams(string columnName, string columnType, int columnSize,
     this->columnType = columnType;
 
 }
+CreateParams::CreateParams(CreateParams& c)
+{
+    this->columnDefaultValue = c.getColumnDefaultValue();
+    this->columnName = c.getColumnName();
+    this->columnSize = c.getColumnSize();
+    this->columnType = c.getColumnType();
+}
 #pragma endregion
 
 
@@ -68,8 +75,3 @@ string CreateParams::getColumnDefaultValue()
 
 #pragma endregion
 
-void CreateParams::parseInput(string input)
-{
-
-
-}

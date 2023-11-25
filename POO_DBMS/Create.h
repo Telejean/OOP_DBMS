@@ -16,6 +16,7 @@ public:
 	//Constructors
 	Create();
 	Create(string variant, string identifier, string condition, int noColumns, CreateParams* params);
+	Create(Create& c);
 
 	//Setters
 	void setVariant(string variant);
@@ -33,5 +34,7 @@ public:
 
 	//Methods
 	void parseUserInput(string userInput);
+	void displayAll();
 
+	~Create();
 };

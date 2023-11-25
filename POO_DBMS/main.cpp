@@ -4,33 +4,34 @@
 #include "Table.h"
 #include "Instructions.h"
 #include "Create.h"
+#include "Insert.h"
+#include "Delete.h"
+#include "Drop.h"
+#include "Display.h"
+#include "Select.h"
+#include "Update.h"
 #include <fstream>
 
 using namespace std;
 
-//Instruction Variant  Specifier
-//   INSERT    INTO     studenti VALUES (1,”John”,”1001”)
 
 Create create;
+Insert insert;
+Delete delet;
+Drop drop;
+Display display;
+Select select;
+Update update;
 
 int main()
 {
-	ifstream Commands("Commands.txt");
 	string userInput;
-	getline(Commands, userInput);
+	Instructions instruction;
+	COMMAND_TYPES command = UNDEFINED;
 
-	Instructions instruction(userInput);
-	COMMAND_TYPES command= instruction.checkInstruction();
-
-
-
-
-	//Comenzi userCommands = DEFAULT;
 	while (command != EXIT)
 	{
 		cout << "Enter command. Type HELP for more info" << endl;
-
-		//cin >> userInput;
 		getline(cin, userInput);
 		instruction.setCommand(userInput);
 		command = instruction.checkInstruction();
@@ -48,36 +49,38 @@ int main()
 		case(CREATE):
 		{
 			create.parseUserInput(userInput);
-			CreateParams x;
-			cout << create.getCondition() << endl;
-			cout << create.getIdentifier() << endl;
-			cout << create.getNoColumns() << endl;
-			cout << create.getVariant() << endl;
+			create.displayAll();
 
 		}break;
 		case(DROP):
 		{
-
+			drop.parseUserInput(userInput);
+			drop.displayAll();
 		}break;
 		case(DISPLAY):
 		{
-
+			display.parseUserInput(userInput);
+			display.displayAll();
 		}break;
 		case(INSERT):
 		{
-
+			insert.parseUserInput(userInput);
+			insert.displayAll();
 		}break;
 		case(SELECT):
 		{
-
+			select.parseUserInput(userInput);
+			select.displayAll();
 		}break;
 		case(UPDATE):
 		{
-
+			update.parseUserInput(userInput);
+			update.displayAll();
 		}break;
 		case(DELETE):
 		{
-
+			delet.parseUserInput(userInput);
+			delet.displayAll();
 		}break;
 		default:
 			cout << "comanda necunoscuta" << '\n';

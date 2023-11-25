@@ -131,21 +131,34 @@
     <ClCompile Include="Create.cpp" />
     <ClCompile Include="CreateParams.cpp" />
     <ClCompile Include="Database.cpp" />
+    <ClCompile Include="Delete.cpp" />
+    <ClCompile Include="Display.cpp" />
+    <ClCompile Include="Drop.cpp" />
+    <ClCompile Include="Insert.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Select.cpp" />
     <ClCompile Include="Table.cpp" />
     <ClCompile Include="Instructions.cpp" />
+    <ClCompile Include="Update.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="Create.h" />
     <ClInclude Include="CreateParams.h" />
     <ClInclude Include="Database.h" />
+    <ClInclude Include="Delete.h" />
+    <ClInclude Include="Display.h" />
+    <ClInclude Include="Drop.h" />
+    <ClInclude Include="Insert.h" />
+    <ClInclude Include="Select.h" />
     <ClInclude Include="Table.h" />
     <ClInclude Include="Instructions.h" />
+    <ClInclude Include="Update.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Commands-Breakdown.txt" />
     <Text Include="Commands.txt" />
+    <Text Include="TestedCommands.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

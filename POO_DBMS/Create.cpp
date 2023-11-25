@@ -31,6 +31,25 @@ Create::Create(string variant, string identifier, string condition, int noColumn
 		this->params = nullptr;
 	}
 }
+Create::Create(Create& c)
+{
+	this->variant = c.getVariant();
+	this->identifier = c.getIdentifier();
+	this->condition = c.getCondition();
+	this->noColumns = c.getNoColumns();
+	if (c.getParams()!= nullptr)
+	{
+		this->params = new CreateParams[c.getNoColumns()];
+		for (int i = 0; i < c.getNoColumns(); i++)
+		{
+			//TODO overload '=' in createParams
+			this->params = c.getParams();
+		}
+	}
+	else {
+		this->params = nullptr;
+	}
+}
 #pragma endregion
 
 #pragma region Setters
@@ -143,7 +162,6 @@ void Create::parseUserInput(string userInput)
 	userInput.erase(0, this->getIdentifier().length()+this->getCondition().length() + 2);
 
 
-	this->params->parseInput(userInput);
 
 	int noColumns = 0;
 	string copy = userInput;
@@ -206,10 +224,24 @@ void Create::parseUserInput(string userInput)
 		setOfParams.erase(0, token.size() + 2);
 	}
 
+	this->setParams(params, noColumns);
+}
+
+void Create::displayAll()
+{
 	for (int i = 0; i < noColumns; i++)
 	{
+		cout << i+1<<" set of params: ";
 		cout << params[i].getColumnName() << " " << params[i].getColumnType() << " " << params[i].getColumnSize() << " " << params[i].getColumnDefaultValue() << endl;
 	}
+	
+	cout << "Variant:" << this->variant << "  Identifier:" << this->identifier << "   No. Columns:" << this->noColumns << endl;
+}
 
-	this->setParams(params, noColumns);
+
+
+Create::~Create()
+{
+	if (this->params != nullptr)
+		delete[] this->params;
 }
