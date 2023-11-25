@@ -2,111 +2,80 @@
 #include "Database.h"
 #include "Attribute.h"
 #include "Table.h"
+#include "Instructions.h"
+#include "Create.h"
+#include <fstream>
+
 using namespace std;
 
-enum Comenzi { EXIT, HELP, CREATE_TABLE, CREATE_INDEX, DROP_TABLE, DROP_INDEX, DISPLAY_TABLE, DEFAULT };
+//Instruction Variant  Specifier
+//   INSERT    INTO     studenti VALUES (1,”John”,”1001”)
 
-Comenzi stringToCommand(string userInput)
-{
-	if (userInput == "EXIT") return EXIT;
-	if (userInput == "CREATE TABLE") return CREATE_TABLE;
-	if (userInput == "CREATE INDEX") return CREATE_INDEX;
-	if (userInput == "DROP TABLE") return DROP_TABLE;
-	if (userInput == "DROP INDEX") return DROP_INDEX;
-	if (userInput == "DISPLAY TABLE") return DISPLAY_TABLE;
-	if (userInput == "HELP") return HELP;
-	return DEFAULT;
-}
-Datatype stringToDataType(string userInput) {
-	if (userInput == "INTEGER") return INTEGER;
-	if (userInput == "REAL") return REAL;
-	return TEXT;
-}
-
+Create create;
 
 int main()
 {
-	/*
-	Attribute model, numarUsi;
-	numarUsi.setName("Numar usi");
-	numarUsi.setDatatype(INTEGER);
-	model.setName("Model");
-	model.setDatatype(TEXT);
-
-	////vector
-    Attribute attributes[40];
-	attributes[0] = model;
-	attributes[1] = numarUsi;
-
-	Table masini;
-	masini.setAttributes(attributes);
-	for (int i = 0; i < 3; i++)
-	{
-		cout <<"    " << attributes[i].getName();
-	}
-	*/
-	
-	Comenzi userCommands = DEFAULT;
+	ifstream Commands("Commands.txt");
 	string userInput;
+	getline(Commands, userInput);
 
-	while (userCommands != EXIT)
+	Instructions instruction(userInput);
+	COMMAND_TYPES command= instruction.checkInstruction();
+
+
+
+
+	//Comenzi userCommands = DEFAULT;
+	while (command != EXIT)
 	{
 		cout << "Enter command. Type HELP for more info" << endl;
 
-		cin >> userInput;
-		userCommands = stringToCommand(userInput);
+		//cin >> userInput;
+		getline(cin, userInput);
+		instruction.setCommand(userInput);
+		command = instruction.checkInstruction();
 
-		switch (userCommands)
+		switch (command)
 		{
 		case(HELP): {
-			cout << "Commands: CREATE_TABLE, CREATE_INDEX, CREATE_INDEX, DROP_TABLE, DROP_INDEX, DISPLAY_TABLE, EXIT" << '\n';
+			cout << "Commands: CREATE, DROP, DISPLAY, INSERT,SELECT, UPDATE, DELETE, HELP, EXIT" << '\n';
 		}break;
 
 		case(EXIT):
 		{
 			cout << "Bye";
 		}break;
-		case(CREATE_TABLE):
+		case(CREATE):
 		{
-			int noAttributes;
-			string name;
-			Table t;
-			Attribute attributeVector[10];
-			cout << "Enter table name: ";
-			cin >> name;
-			t.setName(name);
-			cout << "Enter number of attributes: ";
-			cin >> noAttributes;
-			cin.get();
-
-
-			for (int i = 0; i < noAttributes; i++) {
-				Attribute a;
-				
-				cout << "Enter attribute " << i << "'s name: ";
-				cin >> name;
-				a.setName(name);
-				cout << "Enter data type: ";
-				cin >> userInput;
-				a.setDatatype(stringToDataType(userInput));
-				attributeVector[i] = a;
-			}
-
+			create.parseUserInput(userInput);
+			CreateParams x;
+			cout << create.getCondition() << endl;
+			cout << create.getIdentifier() << endl;
+			cout << create.getNoColumns() << endl;
+			cout << create.getVariant() << endl;
 
 		}break;
-		case(CREATE_INDEX):
+		case(DROP):
 		{
 
 		}break;
-		case(DROP_TABLE):
+		case(DISPLAY):
 		{
 
 		}break;
-		case(DROP_INDEX):
+		case(INSERT):
 		{
 
 		}break;
-		case(DISPLAY_TABLE):
+		case(SELECT):
+		{
+
+		}break;
+		case(UPDATE):
+		{
+
+		}break;
+		case(DELETE):
 		{
 
 		}break;

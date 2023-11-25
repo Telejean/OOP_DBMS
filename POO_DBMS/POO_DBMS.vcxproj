@@ -128,16 +128,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Attribute.cpp" />
+    <ClCompile Include="Create.cpp" />
+    <ClCompile Include="CreateParams.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Table.cpp" />
-    <ClCompile Include="UserInput.cpp" />
+    <ClCompile Include="Instructions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Attribute.h" />
+    <ClInclude Include="Create.h" />
+    <ClInclude Include="CreateParams.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="Table.h" />
-    <ClInclude Include="UserInput.h" />
+    <ClInclude Include="Instructions.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Commands-Breakdown.txt" />
+    <Text Include="Commands.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
