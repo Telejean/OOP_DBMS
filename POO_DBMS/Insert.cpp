@@ -104,9 +104,13 @@ string* Insert::getParams()
 		{
 			copy[i] = this->params[i];
 		}
+		cout << endl;
+		for (int i = 0; i < this->noParams; i++)
+			cout << copy[i] << endl;
 	}
 
 	else copy = nullptr;
+
 
 	return copy;
 }
@@ -158,5 +162,13 @@ void Insert::displayAll()
 	}
 	cout << endl;
 }
+
 #pragma endregion
 
+void Insert::operator=( Insert& const i)
+{
+	this->variant =  i.getVariant();
+	this->identifier = i.getIdentifier();
+	this->noParams = i.getNoParams();
+	this->params = i.getParams();
+}

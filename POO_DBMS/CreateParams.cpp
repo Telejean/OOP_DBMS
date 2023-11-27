@@ -75,3 +75,10 @@ string CreateParams::getColumnDefaultValue()
 
 #pragma endregion
 
+void CreateParams::operator=(CreateParams& cp)
+{
+    this->columnDefaultValue = cp.columnDefaultValue;
+    this->columnName = cp.columnName;
+    this->columnSize = cp.columnSize;
+    this->columnType = cp.columnType;
+}

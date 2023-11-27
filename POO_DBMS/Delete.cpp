@@ -112,3 +112,18 @@ void Delete::displayAll()
 	cout <<"Variant: " << this->variant << "  |Identifier: " << this->identifier << " |Condition type:" << this->conditionType << " |Condition parameter:" << this->conditionParam << " |Condition specifier:" << this->conditionSpecifier << endl;
 
 }
+
+void Delete::operator=(Delete& d)
+{
+	this->variant = d.getVariant();
+	this->identifier = d.getIdentifier();
+	this->conditionParam = d.getConditionParam();
+	this->conditionSpecifier = d.getConditionSpecifier();
+	this->conditionType = d.getConditionType();
+}
+
+void operator<<(ostream &console, Delete d)
+{
+	console << "Variant: " << d.getVariant() << "  |Identifier: " << d.getIdentifier() << " |Condition type:" << d.getConditionType() << " |Condition parameter:" << d.getConditionParam() << " |Condition specifier:" << d.getConditionSpecifier() << endl;
+
+}

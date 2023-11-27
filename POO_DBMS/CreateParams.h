@@ -28,5 +28,5 @@ public:
 #pragma endregion
 
 	void parseInput(string input);
-
+	void operator=(CreateParams& cp);
 };

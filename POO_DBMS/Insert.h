@@ -26,4 +26,6 @@ public:
 
 	void parseUserInput(string userInput);
 	void displayAll();
+
+	void operator=(Insert& i);
 };

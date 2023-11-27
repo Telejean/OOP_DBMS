@@ -42,4 +42,5 @@ public:
 	void displayAll();
 
 	//Overloads
+	void operator=(Select& s);
 };

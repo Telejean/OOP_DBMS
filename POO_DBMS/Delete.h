@@ -30,4 +30,7 @@ public:
 
 	void parseUserInput(string userInput);
 	void displayAll();
+
+	void operator=(Delete& d);
+	friend void operator<<(ostream &console, Delete  d);
 };

@@ -16,7 +16,11 @@ using namespace std;
 
 
 Create create;
+Create create2;
+
 Insert insert;
+Insert insertt;
+
 Delete delet;
 Drop drop;
 Display display;
@@ -25,6 +29,7 @@ Update update;
 
 int main()
 {
+
 	string userInput;
 	Instructions instruction;
 	COMMAND_TYPES command = UNDEFINED;
@@ -49,7 +54,11 @@ int main()
 		case(CREATE):
 		{
 			create.parseUserInput(userInput);
-			create.displayAll();
+			create2 = create;
+			//create.displayAll();
+			//create2.displayAll();
+			create + create2;
+			//cout << create[2];
 
 		}break;
 		case(DROP):
@@ -65,7 +74,10 @@ int main()
 		case(INSERT):
 		{
 			insert.parseUserInput(userInput);
+			insertt = insert;
+			
 			insert.displayAll();
+			insertt.displayAll();
 		}break;
 		case(SELECT):
 		{
@@ -80,7 +92,8 @@ int main()
 		case(DELETE):
 		{
 			delet.parseUserInput(userInput);
-			delet.displayAll();
+			//delet.displayAll();
+			cout << delet;
 		}break;
 		default:
 			cout << "comanda necunoscuta" << '\n';

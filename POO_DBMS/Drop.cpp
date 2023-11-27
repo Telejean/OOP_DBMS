@@ -52,3 +52,9 @@ void Drop::displayAll()
 {
 	cout <<"Variant:"<< this->variant << endl << "Identifier:" << this->identifier << endl;
 }
+
+void Drop::operator=(Drop& d)
+{
+	this->identifier = d.getIdentifier();
+	this->variant = d.getVariant();
+}

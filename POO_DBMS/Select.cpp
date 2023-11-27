@@ -203,4 +203,15 @@ void Select::displayAll()
 	cout << this->conditionParam<<"\n" << "Condition specifier: " << this->conditionSpecifier << endl;
 }
 
+
 #pragma endregion
+
+void Select::operator=(Select& s)
+{
+	this->params = s.getParams();
+	this->variant = s.getVariant();
+	this->identifier = s.getIdentifier();
+	this->conditionParam = s.getConditionParam();
+	this->conditionSpecifier= s.getConditionSpecifier();
+	this->conditionType = s.getConditionType();
+}

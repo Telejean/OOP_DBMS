@@ -52,3 +52,9 @@ void Display::displayAll()
 {
 	cout <<"Variant:" << this->variant << endl <<"Identifier:" << this->identifier << endl;
 }
+
+void Display::operator=(Display& d)
+{
+	this->variant = d.getVariant();
+	this->identifier = d.getIdentifier();
+}

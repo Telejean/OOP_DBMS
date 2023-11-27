@@ -36,5 +36,13 @@ public:
 	void parseUserInput(string userInput);
 	void displayAll();
 
+	//Deconstructor
 	~Create();
+
+	//Overloads
+	void operator=(Create& create);
+	friend void operator<<(ostream& console, Create create);
+	friend void operator>>(ifstream& console, Create create);
+	CreateParams operator[](int counter);
+	void operator+()
 };

@@ -134,6 +134,7 @@ CreateParams* Create::getParams()
 }
 #pragma endregion
 
+#pragma region Methods
 
 void Create::parseUserInput(string userInput)
 {
@@ -238,10 +239,59 @@ void Create::displayAll()
 	cout << "Variant:" << this->variant << "  Identifier:" << this->identifier << "   No. Columns:" << this->noColumns << endl;
 }
 
-
+#pragma endregion
 
 Create::~Create()
 {
 	if (this->params != nullptr)
 		delete[] this->params;
+}
+
+void Create::operator=(Create& c)
+{
+	this->variant = c.getVariant();
+	this->identifier = c.getIdentifier();
+	this->condition = c.getCondition();
+	this->noColumns = c.getNoColumns();
+
+	if (c.params != nullptr)
+	{
+		if (this->params = c.getParams())
+		{
+			return;
+		}
+		else {
+			delete[] this->params;
+			this->params = new CreateParams[this->noColumns];
+			for (int i = 0; i < this->noColumns; i++)
+			{
+				this->params[i] = c.params[i];
+			}
+		}
+	}
+	else {
+		this->params = nullptr;
+	}
+
+
+}
+
+CreateParams Create::operator[](int counter)
+{
+	return CreateParams();
+}
+
+void operator<<(ostream& console, Create create)
+{
+	for (int i = 0; i < create.noColumns; i++)
+	{
+		cout << i + 1 << " set of params: ";
+		cout << create.getParams()[i].getColumnName() << " " << create.getParams()[i].getColumnType() << " " << create.getParams()[i].getColumnSize() << " " << create.getParams()[i].getColumnDefaultValue() << endl;
+	}
+
+	cout << "Variant:" << create.getVariant() << "  Identifier:" << create.getIdentifier() << "   No. Columns:" << create.getNoColumns() << endl;
+}
+
+void operator>>(ifstream& console, Create create)
+{
 }
