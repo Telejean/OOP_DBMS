@@ -5,14 +5,15 @@ using namespace std;
 
 
 class Table {
-	string name;
-	Attribute attributes[40];
+	char name[20];
+	int noAttributes;
+	Attribute* attributes;
 public:
 	Table();
-	Table(string name, Attribute attributes[]);
-	string getName();
+	Table(char name[20], Attribute* attributes, int noAttributes);
+	char* getName();
 	Attribute* getAttribute();
-	void setName(string name);
+	void setName(char name[20]);
 	void setAttributes(Attribute attributes[]);
 	~Table();
 };

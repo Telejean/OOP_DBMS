@@ -1,26 +1,30 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Table.h"
 #include "Attribute.h"
 #include <iostream>
 
 
-Table::Table(string name, Attribute attributes[]) {
-	this->name = name;
-	for (int i = 0; i < 40; i++)
+Table::Table(char name[20], Attribute* attributes, int noAttributes) {
+	strcpy(this->name, name);
+	attributes = new Attribute[noAttributes];
+	for (int i = 0; i < noAttributes; i++)
 	{
 		this->attributes[i].setDatatype(attributes[i].getDatatype());
 	}	
 }
 Table::Table() = default;
-string Table::getName() {
 
-	return this->name;
+char* Table::getName() {
+	char copy[20];
+	strcpy(copy, name);
+	return copy;
 }
 Attribute* Table::getAttribute() {
 	return this->attributes;
 }
-void Table::setName(string name)
+void Table::setName(char name[20])
 {
-	this->name = name;
+	strcpy(this->name, name);
 }
 void Table::setAttributes(Attribute attributes[]) {
 	

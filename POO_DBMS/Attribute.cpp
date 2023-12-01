@@ -4,22 +4,28 @@
 #include "Attribute.h"
 using namespace std;
 
-	Attribute::Attribute(string name, Datatype type) {
-		this-> name = name;
+	Attribute::Attribute(char* name, Datatype type) {
+		this->name = new char[strlen(name) + 1];
+		for (int i = 0; i < strlen(name) + 1; i++) {
+			this->name[i] = name[i];
+		}
 		this->type = type;
 	}
-	Attribute::Attribute() {
-		this->name = "";
-		this->type = INTEGER;
-	}
-	string Attribute::getName() {
-		return this->name;
+	Attribute::Attribute() = default;
+	char* Attribute::getName() {
+		char* copy = new char[strlen(name) + 1];
+		for (int i = 0; i < strlen(name) + 1; i++) {
+			copy[i] = name[i];
+		}
+		return copy;
 	}
 	Datatype Attribute::getDatatype() {
 		return this->type;
 	}
-	void Attribute::setName(string name) {
-		this->name = name;
+	void Attribute::setName(char* name) {
+		for (int i = 0; i < strlen(name) + 1; i++) {
+			this->name[i] = name[i];
+		}
 	}
 	void Attribute::setDatatype(Datatype type) {
 		this->type = type;

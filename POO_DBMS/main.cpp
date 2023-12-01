@@ -2,6 +2,7 @@
 #include "Database.h"
 #include "Attribute.h"
 #include "Table.h"
+#define _CRT_SECURE_NO_WARNINGS
 using namespace std;
 
 enum Comenzi { EXIT, HELP, CREATE_TABLE, CREATE_INDEX, DROP_TABLE, DROP_INDEX, DISPLAY_TABLE, DEFAULT };
@@ -9,7 +10,7 @@ enum Comenzi { EXIT, HELP, CREATE_TABLE, CREATE_INDEX, DROP_TABLE, DROP_INDEX, D
 Comenzi stringToCommand(string userInput)
 {
 	if (userInput == "EXIT") return EXIT;
-	if (userInput == "CREATE TABLE") return CREATE_TABLE;
+	if (userInput == "CREATE_TABLE") return CREATE_TABLE;
 	if (userInput == "CREATE INDEX") return CREATE_INDEX;
 	if (userInput == "DROP TABLE") return DROP_TABLE;
 	if (userInput == "DROP INDEX") return DROP_INDEX;
@@ -69,7 +70,7 @@ int main()
 		case(CREATE_TABLE):
 		{
 			int noAttributes;
-			string name;
+			char name[20];
 			Table t;
 			Attribute attributeVector[10];
 			cout << "Enter table name: ";
