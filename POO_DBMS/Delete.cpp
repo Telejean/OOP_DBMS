@@ -127,3 +127,11 @@ void operator<<(ostream &console, Delete d)
 	console << "Variant: " << d.getVariant() << "  |Identifier: " << d.getIdentifier() << " |Condition type:" << d.getConditionType() << " |Condition parameter:" << d.getConditionParam() << " |Condition specifier:" << d.getConditionSpecifier() << endl;
 
 }
+
+void operator>>(istream& console, Delete d)
+{
+	string identifier;
+	cout << "Enter new identifier: ";
+	console >> identifier;
+	d.setIdentifier(identifier);
+}

@@ -172,3 +172,31 @@ void Insert::operator=( Insert& const i)
 	this->noParams = i.getNoParams();
 	this->params = i.getParams();
 }
+
+void operator<<(ostream& console, Insert& i)
+{
+	console << "Variant:" << i.getVariant() << '\n' << "Identifier:" <<i.getIdentifier() << '\n' << "Params:";
+	for (int j = 0; j < i.getNoParams(); j++)
+	{
+		cout << i.params[j] << " ";
+	}
+	console << endl;
+}
+
+
+void operator>>(istream& console, Insert& i)
+{
+	string variant, identifier;
+	int noParams;
+	string* params;
+
+	console >> variant>>identifier>>noParams;
+	params = new string[noParams];
+	for (int i = 0; i < noParams; i++)
+		console >> params[i];
+
+	i.setVariant(variant);
+	i.setIdentifier(identifier);
+	i.setNoParams(noParams);
+	i.setParams(params);
+}

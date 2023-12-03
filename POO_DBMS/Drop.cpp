@@ -58,3 +58,16 @@ void Drop::operator=(Drop& d)
 	this->identifier = d.getIdentifier();
 	this->variant = d.getVariant();
 }
+
+void operator<<(ostream& console, Drop& d)
+{
+	console << "Variant:" << d.getVariant()<< endl << "Identifier:" << d.getIdentifier()<< endl;
+}
+
+void operator>>(istream& console, Drop& d)
+{
+	string variant, identifier;
+	console >> variant >> identifier;
+	d.setVariant(variant);
+	d.setIdentifier(identifier);
+}

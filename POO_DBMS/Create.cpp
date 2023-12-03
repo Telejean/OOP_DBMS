@@ -10,26 +10,19 @@ Create::Create()
 	this->condition = "";
 	this->noColumns = 1;
 	this->params = nullptr;
+	strcpy_s(this->commandName, "");
 }
 
-Create::Create(string variant, string identifier, string condition, int noColumns, CreateParams* params)
+
+
+Create::Create(string variant, string identifier, string condition, int noColumns, CreateParams* params, const char name[20])
 {
-	this->variant = variant;
-	this->identifier = identifier;
-	this->condition = condition;
-	this->noColumns = noColumns;
-	if (params != nullptr)
-	{
-		this->params = new CreateParams[noColumns];
-		for (int i = 0; i < noColumns; i++)
-		{
-			//TODO overload '=' in createParams
-			this->params[i] = params[i];
-		}
-	}
-	else {
-		this->params = nullptr;
-	}
+	this->setVariant(variant);
+	this->setIdentifier(identifier);
+	this->setCondition(condition);
+	this->setNoColumns(noColumns);
+	this->setParams(params, noColumns);
+	this->setCommandName(name);
 }
 Create::Create(Create& c)
 {
@@ -56,35 +49,67 @@ Create::Create(Create& c)
 
 void Create::setVariant(string variant)
 {
-	this->variant = variant;
+	try {
+		if (variant != "TABLE" || variant != "INDEX")
+		{
+			this->variant = variant;
+		}
+		else {
+			throw exception("Invalid variant");
+		}
+	}
+	catch (exception) {
+		cout << "Invalid variant. Your variant: " << variant << endl << endl;
+	}
 }
 
 void Create::setIdentifier(string identifier)
 {
-	this->identifier = identifier;
+	try {
+		if (identifier.size()<30)
+		{
+			this->identifier = identifier;
+		}
+		else {
+			throw exception("Identifier too long");
+		}
+	}
+	catch (exception) {
+		cout << "Identifier too long. Max size is 30, your size:  " << identifier.size() << endl << endl;
+	}
 }
 
 void Create::setNoColumns(int noColumns)
 {
-	this->noColumns = noColumns;
+	try {
+		if (noColumns < 30)
+		{
+			this->noColumns = noColumns;
+		}
+		else {
+			throw exception("Too many columns");
+		}
+	}
+	catch (exception) {
+		cout << "Too many columns. You entered:  " << noColumns << endl << endl;
+	}
 }
 
 
 
 void Create::setParams(CreateParams* params, int noColumns)
 {
-	if (params != nullptr)
-	{
-		this->params = new CreateParams[noColumns];
-		for (int i = 0; i < noColumns; i++)
+		if (params != nullptr)
 		{
-			//TODO overload '=' in createParams
-			this->params[i] = params[i];
+			this->params = new CreateParams[noColumns];
+			for (int i = 0; i < noColumns; i++)
+			{
+				this->params->setColumnDefaultValue(params[i].getColumnDefaultValue());
+			}
 		}
-	}
-	else {
-		this->params = nullptr;
-	}
+		else {
+			this->params = nullptr;
+		}
 }
 void Create::setCondition(string condition)
 {
@@ -94,6 +119,24 @@ void Create::setCondition(string condition)
 
 
 #pragma region Getters
+
+void Create::setCommandName(const char name[20])
+{
+	int sizeOfInput = sizeof(name) / sizeof(name[0]);
+	try {
+		if ( sizeOfInput< 20)
+		{
+			strcpy_s(this->commandName, name);
+		}
+		else {
+			throw exception("Nume comanda prea mare");
+		}
+	}
+	catch (exception) {
+		cout << "Input size is too big: " << sizeOfInput << "\n" << "\n";
+	}
+
+}
 
 string Create::getVariant()
 {
@@ -276,22 +319,22 @@ void Create::operator=(Create& c)
 
 }
 
-CreateParams Create::operator[](int counter)
-{
-	return CreateParams();
-}
+
 
 void operator<<(ostream& console, Create create)
 {
+	console << "Variant:" << create.getVariant() << "  Identifier:" << create.getIdentifier()<<"   Condition:"<<create.getCondition() << "   No. Columns:" << create.getNoColumns() << endl;
 	for (int i = 0; i < create.noColumns; i++)
 	{
-		cout << i + 1 << " set of params: ";
-		cout << create.getParams()[i].getColumnName() << " " << create.getParams()[i].getColumnType() << " " << create.getParams()[i].getColumnSize() << " " << create.getParams()[i].getColumnDefaultValue() << endl;
+		console << i + 1 << " set of params: ";
+		console << create.getParams()[i].getColumnName() << " " << create.getParams()[i].getColumnType() << " " << create.getParams()[i].getColumnSize() << " " << create.getParams()[i].getColumnDefaultValue() << endl;
 	}
-
-	cout << "Variant:" << create.getVariant() << "  Identifier:" << create.getIdentifier() << "   No. Columns:" << create.getNoColumns() << endl;
 }
 
-void operator>>(ifstream& console, Create create)
+
+void operator>>(istream& console, Create create)
 {
+	string condition;
+	console >> condition;
+	create.setCondition(condition);
 }

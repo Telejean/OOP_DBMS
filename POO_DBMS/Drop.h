@@ -21,4 +21,7 @@ public:
 	void displayAll();
 
 	void operator=(Drop& d);
+	friend void operator<<(ostream& console, Drop &d);
+	friend void operator>>(istream& console, Drop& d);
+
 };

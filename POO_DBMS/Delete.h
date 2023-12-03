@@ -33,4 +33,6 @@ public:
 
 	void operator=(Delete& d);
 	friend void operator<<(ostream &console, Delete  d);
+	friend void operator>>(istream& console, Delete  d);
+
 };

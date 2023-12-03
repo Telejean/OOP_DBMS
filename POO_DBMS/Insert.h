@@ -28,4 +28,6 @@ public:
 	void displayAll();
 
 	void operator=(Insert& i);
+	friend void operator<<(ostream& console, Insert& i);
+	friend void operator>>(istream& console, Insert& i);
 };

@@ -58,3 +58,16 @@ void Display::operator=(Display& d)
 	this->variant = d.getVariant();
 	this->identifier = d.getIdentifier();
 }
+
+void operator<<(ostream& console, Display& d)
+{
+	console << "Variant:" << d.getVariant() << endl << "   Identifier:" << d.getIdentifier()<< endl;
+}
+
+void operator>>(istream& console, Display& d)
+{
+	string variant, identifier;
+	console >> variant, identifier;
+	d.setVariant(variant);
+	d.setIdentifier(identifier);
+}

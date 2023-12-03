@@ -57,8 +57,11 @@ int main()
 			create2 = create;
 			//create.displayAll();
 			//create2.displayAll();
-			create + create2;
 			//cout << create[2];
+			cout << create;
+			cin >> create;
+			cout << create;
+
 
 		}break;
 		case(DROP):
@@ -69,7 +72,8 @@ int main()
 		case(DISPLAY):
 		{
 			display.parseUserInput(userInput);
-			display.displayAll();
+		//	display.displayAll();
+			cout << display;
 		}break;
 		case(INSERT):
 		{
