@@ -6,18 +6,18 @@ using namespace std;
 enum Datatype { INTEGER, REAL, TEXT };
 
 class Attribute {
-	string name;
+	char* name;
 	Datatype type;
 	int integerData[200];
 	float floatData[200];
 	string stringData;
 
 public:
-	Attribute(string name, Datatype type);
+	Attribute(char* name, Datatype type);
 	Attribute();
-	string getName();
+	char* getName();
 	Datatype getDatatype();
-	void setName(string name);
+	void setName(char* name);
 	void setDatatype(Datatype type);
 
 };
