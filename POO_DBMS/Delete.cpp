@@ -12,11 +12,11 @@ Delete::Delete()
 
 Delete::Delete(string variant, string identifier, string conditionType, string conditionSpecifier, string conditionParam)
 {
-	this->variant = variant;
-	this->identifier = identifier;
-	this->conditionParam = conditionParam;
-	this->conditionType = conditionType;
-	this->conditionSpecifier = conditionSpecifier;
+	this->setVariant(variant);
+	this->setIdentifier(identifier);
+	this->setConditionParam(conditionParam);
+	this->setConditionType(conditionType);
+	this->setConditionSpecifier(conditionSpecifier);
 }
 
 Delete::Delete(Delete& d)
@@ -34,27 +34,94 @@ Delete::Delete(Delete& d)
 #pragma region Setters
 void Delete::setVariant(string variant)
 {
-	this->variant = variant;
+	try {
+		if (variant != "TABLE" || variant != "INDEX")
+		{
+			this->variant = variant;
+		}
+		else {
+			throw exception("Invalid variant");
+		}
+	}
+	catch (exception) {
+		cout << "Invalid variant. Your variant: " << variant << endl << endl;
+	}
 }
 
 void Delete::setIdentifier(string identifier)
 {
-	this->identifier = identifier;
+	try {
+		if (identifier.size() < 30)
+		{
+			this->identifier = identifier;
+		}
+		else {
+			throw exception("Identifier too long");
+		}
+	}
+	catch (exception) {
+		cout << "Identifier too long. Max size is 30, your size:  " << identifier.size() << endl << endl;
+	}
 }
 
 void Delete::setConditionType(string conditionType)
 {
-	this->conditionType = conditionType;
+	try {
+		if (conditionType.size() < 30)
+		{
+			this->conditionType = conditionType;
+		}
+		else {
+			throw exception("conditionType too long");
+		}
+	}
+	catch (exception) {
+		cout << "conditionType too long. Max size is 30, your size:  " << conditionType.size() << endl << endl;
+	}
 }
 
 void Delete::setConditionSpecifier(string conditionSpecifier)
 {
-	this->conditionSpecifier = conditionSpecifier;
+	try {
+		if (conditionSpecifier.size() < 30)
+		{
+			this->conditionSpecifier = conditionSpecifier;
+		}
+		else {
+			throw exception("conditionSpecifier too long");
+		}
+	}
+	catch (exception) {
+		cout << "conditionSpecifier too long. Max size is 30, your size:  " << conditionSpecifier.size() << endl << endl;
+	}
 }
+
 
 void Delete::setConditionParam(string conditionParam)
 {
-	this->conditionParam = conditionParam;
+	try {
+		if (conditionParam.size() < 30)
+		{
+			this->conditionParam = conditionParam;
+		}
+		else {
+			throw exception("conditionParam too long");
+		}
+	}
+	catch (exception) {
+		cout << "conditionParam too long. Max size is 30, your size:  " << conditionParam.size() << endl << endl;
+	}
+}
+
+void Delete::setCommandName(const char name[20])
+{
+	if (strchr(name, ' ') == NULL)
+	{
+		strcpy_s(this->commandName, name);
+	}
+	else {
+		cout << "Command name can't contain spaces" << endl<<endl;
+	}
 }
 
 #pragma endregion

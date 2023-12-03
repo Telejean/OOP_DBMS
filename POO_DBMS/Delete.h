@@ -10,6 +10,7 @@ class Delete{
 	string conditionType;
 	string conditionSpecifier;
 	string conditionParam;
+	char commandName[20];
 
 public:
 	Delete();
@@ -21,12 +22,14 @@ public:
 	void setConditionType(string conditionType);
 	void setConditionSpecifier(string conditionSpecifier);
 	void setConditionParam(string conditionParam);
+	void setCommandName(const char name[20]);
 
 	string getVariant();
 	string getIdentifier();
 	string getConditionType();
 	string getConditionSpecifier();
 	string getConditionParam();
+	const char getCommandName();
 
 	void parseUserInput(string userInput);
 	void displayAll();
