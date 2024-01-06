@@ -19,4 +19,5 @@ public:
 	void setName(string name);
 	void setTables(Table tables[]);
 	~Database();
+	void operator=(Database& d);
 };

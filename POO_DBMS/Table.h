@@ -16,6 +16,7 @@ public:
 	void setName(char name[20]);
 	void setAttributes(Attribute attributes[]);
 	~Table();
+	void operator=(Table& t);
 };
 
 

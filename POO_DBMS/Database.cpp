@@ -43,3 +43,11 @@ void Database::setTables(Table tables[]) {
 Database::~Database() {
 	delete[] this->tables;
 }
+void Database::operator=(Database& d)
+{
+	this->name = d.name;
+	for (int i = 0; i < noTables; i++)
+	{
+		this->tables[i] = d.tables[i];
+	}
+}

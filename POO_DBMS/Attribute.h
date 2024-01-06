@@ -19,5 +19,5 @@ public:
 	Datatype getDatatype();
 	void setName(char* name);
 	void setDatatype(Datatype type);
-
+	void operator=(Attribute& attribute);
 };

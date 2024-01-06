@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-Table::Table(char name[20], Attribute* attributes, int noAttributes) {
+Table::Table(const char name[20], Attribute* attributes, int noAttributes) {
 	strcpy(this->name, name);
 	attributes = new Attribute[noAttributes];
 	for (int i = 0; i < noAttributes; i++)
@@ -35,4 +35,15 @@ void Table::setAttributes(Attribute attributes[]) {
 }
 Table::~Table() {
 	delete[] this->attributes;
+
+}
+
+void Table::operator=(Table& t)
+{
+	for (int i = 0; i < t.noAttributes; i++)
+	{
+		this->attributes[i].setDatatype(t.attributes[i].getDatatype());
+	}
+	strcpy(this->name, t.name);
+	this->noAttributes = t.noAttributes;
 }

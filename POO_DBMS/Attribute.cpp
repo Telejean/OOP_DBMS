@@ -31,3 +31,9 @@ using namespace std;
 		this->type = type;
 	}
 	
+	void Attribute::operator=(Attribute& a)
+	{
+		this->name = a.name;
+		this->type = a.type;
+	}
+	
