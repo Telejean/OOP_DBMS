@@ -40,6 +40,10 @@ void Database::setTables(Table tables[]) {
 		this->tables[i] = tables[i];
 	}
 }
+Database::Database(Database& d) {
+	setName(d.name);
+	setTables(d.tables);
+}
 Database::~Database() {
 	delete[] this->tables;
 }

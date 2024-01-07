@@ -30,10 +30,18 @@ using namespace std;
 	void Attribute::setDatatype(Datatype type) {
 		this->type = type;
 	}
+	Attribute::Attribute(Attribute &a) {
+		setName(a.name);
+		setDatatype(a.type);
+	}
 	
 	void Attribute::operator=(Attribute& a)
 	{
-		this->name = a.name;
-		this->type = a.type;
+		setName(a.name);
+		setDatatype(a.type);
 	}
-	
+	void operator<<(ostream& COUT, Attribute& a) {
+		COUT << "Name: " << a.getName() << endl;
+		COUT << "Datatype: " << a.getDatatype() << endl;
+	}
+int Attribute::noOfTables = 10;

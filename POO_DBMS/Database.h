@@ -18,6 +18,7 @@ public:
 	Table* getTables();
 	void setName(string name);
 	void setTables(Table tables[]);
+	Database(Database& d);
 	~Database();
 	void operator=(Database& d);
 };

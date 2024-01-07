@@ -11,6 +11,7 @@ class Attribute {
 	int integerData[200];
 	float floatData[200];
 	string stringData;
+	static int noOfTables;
 
 public:
 	Attribute(char* name, Datatype type);
@@ -19,5 +20,6 @@ public:
 	Datatype getDatatype();
 	void setName(char* name);
 	void setDatatype(Datatype type);
+	Attribute(Attribute &a);
 	void operator=(Attribute& attribute);
 };
