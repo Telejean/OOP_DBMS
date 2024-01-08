@@ -54,13 +54,13 @@ int main()
 		case(CREATE):
 		{
 			create.parseUserInput(userInput);
-			create2 = create;
-			//create.displayAll();
+			//create2 = create;
+			create.displayAll();
 			//create2.displayAll();
 			//cout << create[2];
-			cout << create;
-			cin >> create;
-			cout << create;
+			//cout << create;
+			//cin >> create;
+			//cout << create;
 
 
 		}break;

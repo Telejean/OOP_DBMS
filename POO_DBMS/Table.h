@@ -10,7 +10,7 @@ class Table {
 	Attribute* attributes;
 public:
 	Table();
-	Table(char name[20], Attribute* attributes, int noAttributes);
+	Table(const char name[], Attribute* attributes, int noAttributes);
 	char* getName();
 	Attribute* getAttribute();
 	void setName(char name[20]);

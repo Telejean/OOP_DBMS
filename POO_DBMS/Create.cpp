@@ -104,7 +104,9 @@ void Create::setParams(CreateParams* params, int noColumns)
 			this->params = new CreateParams[noColumns];
 			for (int i = 0; i < noColumns; i++)
 			{
-				this->params->setColumnDefaultValue(params[i].getColumnDefaultValue());
+				this->params[i].setColumnName(params[i].getColumnName());
+				this->params[i].setColumnSize(params[i].getColumnSize());
+				this->params[i].setColumnType(params[i].getColumnType());
 			}
 		}
 		else {
@@ -219,56 +221,55 @@ void Create::parseUserInput(string userInput)
 
 	this->setNoColumns(noColumns);
 
-	CreateParams* params = new CreateParams[noColumns];
+	this->params = new CreateParams[noColumns];
 	string setOfParams;
 
 	setOfParams = userInput.substr(0, userInput.find(')'));
 	userInput.erase(0, setOfParams.size() + 1);
-	setOfParams.erase(0, setOfParams.find('(') + 2);
-
+	setOfParams.erase(0, setOfParams.find('(') + 1);
 	string token;
+
 	token = setOfParams.substr(0, setOfParams.find(','));
-	params[0].setColumnName(token);
+	this->params[0].setColumnName(token);
 	setOfParams.erase(0, token.size() + 2);
 
 	token = setOfParams.substr(0, setOfParams.find(','));
-	params[0].setColumnType(token);
+	this->params[0].setColumnType(token);
 	setOfParams.erase(0, token.size() + 2);
 
 	token = setOfParams.substr(0, setOfParams.find(','));
-	params[0].setColumnSize(stoi(token));
+	this->params[0].setColumnSize(stoi(token));
 	setOfParams.erase(0, token.size() + 2);
 
 	token = setOfParams.substr(0, setOfParams.find(','));
-	params[0].setColumnDefaultValue(token);
+	this->params[0].setColumnDefaultValue(token);
 	setOfParams.erase(0, token.size() + 2);
 
 	for (int i = 1; i < noColumns; i++)
 	{
-		cout << setOfParams << endl;
 
 		setOfParams =userInput.substr(0, userInput.find(')'));
 		userInput.erase(0, setOfParams.size()+1);
 		setOfParams.erase(0, setOfParams.find('(') + 1);
 
 		token = setOfParams.substr(0, setOfParams.find(','));
-		params[i].setColumnName(token);
+		this->params[i].setColumnName(token);
 		setOfParams.erase(0, token.size() + 2);
 
 		token = setOfParams.substr(0, setOfParams.find(','));
-		params[i].setColumnType(token);
+		this->params[i].setColumnType(token);
 		setOfParams.erase(0, token.size() + 2);
 
 		token = setOfParams.substr(0, setOfParams.find(','));
-		params[i].setColumnSize(stoi(token));
+		this->params[i].setColumnSize(stoi(token));
 		setOfParams.erase(0, token.size() + 2);
 
 		token = setOfParams.substr(0, setOfParams.find(','));
-		params[i].setColumnDefaultValue(token);
+		this->params[i].setColumnDefaultValue(token);
 		setOfParams.erase(0, token.size() + 2);
+
 	}
 
-	this->setParams(params, noColumns);
 }
 
 void Create::displayAll()
@@ -276,7 +277,7 @@ void Create::displayAll()
 	for (int i = 0; i < noColumns; i++)
 	{
 		cout << i+1<<" set of params: ";
-		cout << params[i].getColumnName() << " " << params[i].getColumnType() << " " << params[i].getColumnSize() << " " << params[i].getColumnDefaultValue() << endl;
+		cout << this->params[i].getColumnName() << " " << this->params[i].getColumnType() << " " << this->params[i].getColumnSize() << " " << this->params[i].getColumnDefaultValue() << endl;
 	}
 	
 	cout << "Variant:" << this->variant << "  Identifier:" << this->identifier << "   No. Columns:" << this->noColumns << endl;
