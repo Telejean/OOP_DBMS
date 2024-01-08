@@ -10,7 +10,7 @@ class CreateParams {
 
 public:
 	CreateParams();
-	CreateParams(string columnName,string columnType, int columnSize, string defaultValue);
+	CreateParams(string columnName, string columnType, int columnSize, string defaultValue);
 	CreateParams(CreateParams& c);
 
 #pragma region Setters

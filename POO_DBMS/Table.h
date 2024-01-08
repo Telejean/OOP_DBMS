@@ -1,23 +1,28 @@
 #pragma once
 #include <iostream>
 #include "Attribute.h"
+#include "Create.h"
 using namespace std;
 
 
 class Table {
-	char name[20];
+	char* name;
 	int noAttributes;
 	Attribute* attributes;
 public:
 	Table();
-	Table(const char name[20], Attribute* attributes, int noAttributes);
+	Table(char name[], Attribute* attributes, int noAttributes);
 	char* getName();
 	Attribute* getAttribute();
 	int getNoAttributes();
 	void setName(char name[20]);
 	void setAttributes(Attribute attributes[]);
-	Table(Table& t);
+	void setNoAttributes(int n);
+	void convertParams(CreateParams* p, int noColumns);
 	~Table();
-	void operator=(Table& t);
+	void operator=(Create& c);
+	friend ostream& operator<<(ostream&, Table&);
+
+	void displayTable();
 };
 

@@ -54,14 +54,11 @@ int main()
 		case(CREATE):
 		{
 			create.parseUserInput(userInput);
-			create2 = create;
-			//create.displayAll();
-			//create2.displayAll();
-			//cout << create[2];
-			cout << create;
-			cin >> create;
-			cout << create;
+			create.displayAll();
+			Table tabel;
+			tabel = create;
 
+			tabel.displayTable();
 
 		}break;
 		case(DROP):
@@ -72,14 +69,14 @@ int main()
 		case(DISPLAY):
 		{
 			display.parseUserInput(userInput);
-		//	display.displayAll();
+			//	display.displayAll();
 			cout << display;
 		}break;
 		case(INSERT):
 		{
 			insert.parseUserInput(userInput);
 			insertt = insert;
-			
+
 			insert.displayAll();
 			insertt.displayAll();
 		}break;

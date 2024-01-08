@@ -11,7 +11,7 @@ class Create {
 	string condition;
 	int noColumns;
 	CreateParams* params;
-	char commandName[20]="";
+	char commandName[20] = "";
 
 public:
 	//Constructors
