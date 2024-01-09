@@ -104,9 +104,6 @@ string* Insert::getParams()
 		{
 			copy[i] = this->params[i];
 		}
-		cout << endl;
-		for (int i = 0; i < this->noParams; i++)
-			cout << copy[i] << endl;
 	}
 
 	else copy = nullptr;

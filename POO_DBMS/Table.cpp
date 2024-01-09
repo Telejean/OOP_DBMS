@@ -2,6 +2,7 @@
 #pragma once
 #include "Table.h"
 #include "Attribute.h"
+#include "Insert.h"
 #include <iostream>
 #include <fstream>
 
@@ -41,7 +42,6 @@ int Table::getNoAttributes() {
 void Table::setName(char* name)
 {
 	if (name != nullptr) {
-		cout << "name: " << name << endl;
 		this->name = new char[strlen(name) + 1];
 		strcpy(this->name, name);
 	}
@@ -98,6 +98,7 @@ void Table::convertParams(CreateParams* p, int noColumns)
 
 
 Table::~Table() {
+	delete[] this->name;
 	delete[] this->attributes;
 }
 
@@ -113,7 +114,6 @@ void Table::operator=(Create& c)
 	parsedName[lengthOfName] = '\0';
 
 	this->setName(parsedName);
-	cout << this->getName() << endl;
 
 
 	this->setNoAttributes(c.getNoColumns());
@@ -126,6 +126,10 @@ void Table::saveTable()
 {
 
 	ofstream tableFile(this->getName(), ios::binary);
+	ofstream tableList("tableList.txt", ios::app);
+	tableList << this->getName();
+	tableList << " ";
+	tableList.close();
 
 	if (tableFile)
 	{
@@ -137,30 +141,40 @@ void Table::saveTable()
 		for (int i = 0; i < this->getNoAttributes(); i++)
 		{
 			//2. We write the lenght of the name of the attribute
-			cout << this->attributes[i].getName() << endl;
 			int lenghtOfName = strlen(this->attributes[i].getName());
 			tableFile.write((char*)&lenghtOfName, sizeof(int));
 
+
 			//3. We write the name of the attribute
+			cout << "pos:" << tableFile.tellp();
 			tableFile.write(this->attributes[i].getName(), strlen(this->attributes[i].getName()) * sizeof(char));
 
 
 			//4. We write the number of entries the attribute has
 			int noRows = this->attributes[i].getNoRows();
 			tableFile.write((char*)&noRows, sizeof(int));
-			int* integerData = this->attributes[i].getIntergerData();
-			float* realData = this->attributes[i].getFloatData();
-			string* stringData = this->attributes[i].getStringData();
+			cout << "-" << tableFile.tellp() << endl;
+
+
+			//5. We write the data type
+
+			int dataType = this->attributes[i].getDatatype();
+			tableFile.write((char*)&dataType, sizeof(int));
+
+			int* integerData;
+			float* realData;
+			string* stringData;
 
 			switch (this->attributes[i].getDatatype())
 			{
 			case INTEGER:
 			{
-				for (int j = 0; j < noRows; j++)
+				integerData = this->attributes[i].getIntergerData();
+				if (integerData != nullptr)
 				{
-					if (integerData != nullptr)
+				for (int j = 0; j < noRows; j++)
 					{
-						tableFile.write((char*)&integerData[j], sizeof(int));
+					tableFile.write((char*)&integerData[j], sizeof(int));
 					}
 				}
 
@@ -168,22 +182,20 @@ void Table::saveTable()
 			break;
 			case REAL:
 			{
+				realData = this->attributes[i].getFloatData();
+				if (realData != nullptr)
 				for (int j = 0; j < noRows; j++)
 				{
-					if (realData != nullptr)
-						tableFile.write((char*)&realData[j], sizeof(float));
-
+					tableFile.write((char*)&realData[j], sizeof(float));
 				}
-
-
 			}
 			break;
 			case TEXT:
 			{
+				stringData = this->attributes[i].getStringData();
+				if (stringData != nullptr)
 				for (int j = 0; j < noRows; j++)
 				{
-					if (stringData != nullptr)
-						tableFile.write((char*)stringData[j].length(), sizeof(int));
 					tableFile.write(stringData[j].c_str(), sizeof(string));
 				}
 
@@ -196,13 +208,107 @@ void Table::saveTable()
 		}
 
 		tableFile.close();
-		cout << "victorie";
+		cout << "File saved succesfully"<<endl << endl << endl << endl << endl << endl << endl;
 	}
 	else {
 		cout << "File couldn not be opened";
 	}
 
 
+}
+
+void Table::readTable(string tableName)
+{
+	ifstream tableFile(tableName, ios::binary);
+	if (tableFile) {
+		char* c_tableName = new char[tableName.length()];
+		strcpy(c_tableName, tableName.c_str());
+		this->setName(c_tableName);
+
+		int noAttributes;
+		tableFile.read((char*)&noAttributes, sizeof(int));
+		this->setNoAttributes(noAttributes);
+
+		this->attributes = new Attribute[noAttributes];
+
+
+		int attributeNameLength;
+		char* attributeName;
+		int noRows;
+		int dataType;
+		int* intArr;
+		float* floatArr;
+		string* stringArr;
+
+		for (int i = 0; i < noAttributes; i++)
+		{
+			tableFile.read((char*)&attributeNameLength, sizeof(int));
+			attributeNameLength++;
+			attributeName = new char[attributeNameLength];
+
+			cout << "pos:" << tableFile.tellg() << endl;
+			tableFile.read(attributeName, attributeNameLength * sizeof(char));
+			attributeName[attributeNameLength-1] = '\0';
+			this->attributes[i].setName(attributeName);
+
+
+			tableFile.read((char*)&noRows, sizeof(int));
+			this->attributes[i].setNoRows(noRows);
+			cout << "-" << tableFile.tellg() << endl;
+
+
+
+			tableFile.read((char*)&dataType, sizeof(int));
+			this->attributes[i].setDatatype(static_cast<Datatype>(dataType));
+
+			delete[] attributeName;
+			attributeName = nullptr;
+
+
+				switch (static_cast<Datatype>(dataType))
+				{
+				case INTEGER:
+				{
+					intArr = new int[noRows];
+
+					for (int j = 0; j < noRows; j++)
+					{
+						tableFile.read((char*)&intArr[j], sizeof(int));
+					}
+				}
+				break;
+				case REAL:
+				{
+					floatArr = new float[noRows];
+
+					for (int j = 0; j < noRows; j++)
+					{
+						tableFile.read((char*)&floatArr[j] , sizeof(float));
+					}
+				}
+				break;
+				case TEXT:
+				{
+					stringArr = new string[noRows];
+
+					for (int j = 0; j < noRows; j++)
+					{
+						tableFile.read((char*)&stringArr[j], sizeof(string));
+					}
+				}
+				break;
+				default:
+					throw exception("Invalid Data Type");
+					break;
+				}
+		}
+
+		cout << "File opened succesfully"<<endl << endl << endl << endl << endl << endl << endl;
+
+	}
+	else {
+		cout << "file could not be opened";
+	}
 }
 
 void Table::displayTable()
@@ -212,10 +318,51 @@ void Table::displayTable()
 	for (int i = 0; i < this->getNoAttributes(); i++)
 	{
 		this->attributes[i].displayAttributes();
+
 	}
 }
 
 
+
+ostream& operator>>(Insert& ins, Table& t)
+{
+	int noAttributes= t.getNoAttributes();
+	int noRows = t.getAttribute()->getNoRows();
+	noRows++;
+
+	for (int i = 0; i < noAttributes; i++)
+	{
+		t.getAttribute()[i].setNoRows(noRows);
+
+		switch (t.getAttribute()[i].getDatatype())
+		{
+		case INTEGER:
+		{
+			int intData= stoi(ins.getParams()[i]);
+			t.getAttribute()[i].setIntOnSpecifiedPosition(intData, noRows);
+
+		}
+		break;
+		case REAL:
+		{
+			int realData = stof(ins.getParams()[i]);
+			t.getAttribute()[i].setFloatOnSpecifiedPosition(realData, noRows);
+		}
+		break;
+		case TEXT:
+		{			
+			string stringData = ins.getParams()[i];
+			t.getAttribute()[i].setStringOnSpecifiedPosition(stringData, noRows);
+		}
+		break;
+
+		cout << endl << "Insert succesfull" << endl<<endl<<endl << endl << endl << endl;
+		default:
+			throw exception("Invalid Data Type");
+			break;
+		}
+	}
+}
 
 ostream& operator<<(ostream& console, Table& t)
 {
