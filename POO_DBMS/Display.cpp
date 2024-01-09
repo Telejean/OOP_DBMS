@@ -1,5 +1,5 @@
 #include "Display.h"
-
+#include"Attribute.h"
 Display::Display()
 {
 	this->identifier = "undefined";
@@ -53,11 +53,22 @@ void Display::displayAll()
 	cout <<"Variant:" << this->variant << endl <<"Identifier:" << this->identifier << endl;
 }
 
+void Display::displayTable(Table t)
+{
+	for (int i = 0; i < 10; i++) {
+		if (t.getAttribute() != nullptr) {
+			cout << t.getAttribute()[i];
+		}
+	}
+}
+
 void Display::operator=(Display& d)
 {
 	this->variant = d.getVariant();
 	this->identifier = d.getIdentifier();
 }
+
+
 
 void operator<<(ostream& console, Display& d)
 {
