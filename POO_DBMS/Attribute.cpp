@@ -170,15 +170,8 @@ void Attribute::setStringData(string* stringData) {
 
 }
 
-void Attribute::setIntOnSpecifiedPosition(int n,int i)
-{
-	if (this->integerData != nullptr)
-	{
-		this->integerData[i] = n;
-	}
-}
 
-void Attribute::setFloatOnSpecifiedPosition(int f, int i)
+void Attribute::setFloatOnSpecifiedPosition(float f, int i)
 {
 	if (this->floatData != nullptr)
 	{
@@ -263,21 +256,6 @@ void Attribute::setIntOnSpecifiedPosition(int n, int i)
 
 }
 
-void Attribute::setFloatOnSpecifiedPosition(int f, int i)
-{
-	if (this->floatData != nullptr)
-	{
-		this->floatData[i] = f;
-	}
-}
-
-void Attribute::setStringOnSpecifiedPosition(string s, int i)
-{
-	if (this->stringData != nullptr)
-	{
-		this->stringData[i] = s;
-	}
-}
 
 
 

@@ -38,7 +38,7 @@ public:
 	void setFloatData(float* floatData);
 	void setStringData(string* stringData);
 	void setIntOnSpecifiedPosition(int n, int i);
-	void setFloatOnSpecifiedPosition(int f, int i);
+	void setFloatOnSpecifiedPosition(float f, int i);
 	void setStringOnSpecifiedPosition(string s, int i);
 
 	void saveInFile(char* filename, ostream f);
