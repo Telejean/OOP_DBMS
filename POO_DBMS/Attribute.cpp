@@ -72,15 +72,16 @@ char* Attribute::getName() {
 	}
 	return copy;
 }
+
 Datatype Attribute::getDatatype() {
 	return this->type;
 }
+
 int* Attribute::getIntergerData()
 {
 	int* copy;
 	if (this->integerData != nullptr)
 	{
-		delete[] this->integerData;
 		copy = new int[this->noRows];
 		for (int i = 0; i < this->noRows; i++)
 			copy[i] = this->integerData[i];
@@ -90,20 +91,39 @@ int* Attribute::getIntergerData()
 	}
 	return copy;
 }
+
 float* Attribute::getFloatData()
 {
-	float* copy = new float[this->noRows];
-	for (int i = 0; i < this->noRows; i++)
-		copy[i] = this->floatData[i];
+	float* copy;
+	if (this->floatData != nullptr)
+	{
+		copy = new float[this->noRows];
+		for (int i = 0; i < this->noRows; i++)
+			copy[i] = this->floatData[i];
+	}
+	else {
+		copy = nullptr;
+	}
+
 	return copy;
 }
+
 string* Attribute::getStringData()
 {
-	string* copy = new string[this->noRows];
-	for (int i = 0; i < this->noRows; i++)
+	string* copy;
+	if (this->stringData != nullptr)
+	{
+		copy = new string[this->noRows];
+		for (int i = 0; i < this->noRows; i++)
 		copy[i] = this->stringData[i];
+	}
+	else {
+		copy = nullptr;
+	}
+
 	return copy;
 }
+
 int Attribute::getNoRows()
 {
 	return this->noRows;
@@ -192,6 +212,52 @@ void Attribute::setFloatData(float* f) {
 	}
 
 }
+
+
+void Attribute::setIntOnSpecifiedPosition(int n, int i)
+{
+	if (this->integerData != nullptr)
+	{
+		int* tempArr = new int[n];
+		for (int u = 0; u < i; u++)
+		{
+			tempArr[u] = this->integerData[u];
+		}
+		delete[] this->integerData;
+
+		this->integerData = new int[i];
+		for (int u = 0; u < i; u++)
+		{
+			this->integerData[u] = tempArr[u];
+		}
+		delete[] tempArr;
+	}
+	else {
+		this->integerData = new int[i];
+	}
+
+		this->integerData[i] = n;
+
+}
+
+void Attribute::setFloatOnSpecifiedPosition(int f, int i)
+{
+	if (this->floatData != nullptr)
+	{
+		this->floatData[i] = f;
+	}
+}
+
+void Attribute::setStringOnSpecifiedPosition(string s, int i)
+{
+	if (this->stringData != nullptr)
+	{
+		this->stringData[i] = s;
+	}
+}
+
+
+
 void Attribute::saveInFile(char* filename, ostream f)
 {
 
@@ -204,8 +270,7 @@ void Attribute::saveInFile(char* filename, ostream f)
 	{
 		for (int i = 0; i < this->getNoRows(); i++)
 		{
-			f.write((char*)3, sizeof(int));
-			cout << "caca";
+			f.write((char*)&this->getIntergerData()[i], sizeof(int));
 
 		}
 
