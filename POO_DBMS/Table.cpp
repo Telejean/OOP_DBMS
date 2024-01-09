@@ -41,7 +41,6 @@ int Table::getNoAttributes() {
 void Table::setName(char* name)
 {
 	if (name != nullptr) {
-		cout << "name: " << name << endl;
 		this->name = new char[strlen(name) + 1];
 		strcpy(this->name, name);
 	}
@@ -98,6 +97,7 @@ void Table::convertParams(CreateParams* p, int noColumns)
 
 
 Table::~Table() {
+	delete[] this->name;
 	delete[] this->attributes;
 }
 
@@ -113,7 +113,6 @@ void Table::operator=(Create& c)
 	parsedName[lengthOfName] = '\0';
 
 	this->setName(parsedName);
-	cout << this->getName() << endl;
 
 
 	this->setNoAttributes(c.getNoColumns());
@@ -126,24 +125,24 @@ void Table::saveTable()
 {
 
 	ofstream tableFile(this->getName(), ios::binary);
+	ofstream tableList("tableList.txt", ios::app);
+	tableList << this->getName();
+	tableList << " ";
+	tableList.close();
 
 	if (tableFile)
 	{
-		if (tableFile.fail())
-		{
-			cout << "File failed" << endl;
-			return;
-		}
-
 		int noAttributes = this->getNoAttributes();
 		//1. We write the number of attributes
-		tableFile.write((char*)&noAttributes, sizeof(int));
 
+		tableFile.write((char*)&noAttributes, sizeof(int));
 
 		for (int i = 0; i < this->getNoAttributes(); i++)
 		{
 			//2. We write the lenght of the name of the attribute
-			tableFile.write((char*)strlen(this->attributes[i].getName()), sizeof(int));
+			int lenghtOfName = strlen(this->attributes[i].getName());
+			tableFile.write((char*)&lenghtOfName, sizeof(int));
+
 
 			//3. We write the name of the attribute
 			tableFile.write(this->attributes[i].getName(), strlen(this->attributes[i].getName()) * sizeof(char));
@@ -200,13 +199,50 @@ void Table::saveTable()
 		}
 
 		tableFile.close();
-		cout << "victorie";
 	}
 	else {
 		cout << "File couldn not be opened";
 	}
 
 	
+}
+
+void Table::readTable(string tableName)
+{
+	ifstream tableFile(tableName, ios::binary);
+	if (tableFile) {
+		char* c_tableName = new char[tableName.length()];
+		strcpy(c_tableName, tableName.c_str());
+		this->setName(c_tableName);
+		int noAttributes;
+		tableFile.read((char*)&noAttributes, sizeof(int));
+		this->setNoAttributes(noAttributes);
+
+		this->attributes = new Attribute[noAttributes];
+
+
+		int attributeNameLength;
+		char* attributeName;
+		int noRows;
+
+		for (int i = 0; i < noAttributes; i++)
+		{
+			tableFile.read((char*)&attributeNameLength, sizeof(int));
+			attributeName = new char[attributeNameLength];
+
+			tableFile.read(attributeName, attributeNameLength * sizeof(char));
+
+			this->attributes[i].setName(attributeName);
+			cout <<"Attribute name: "<< attributeName << "   No characters:"<< attributeNameLength<<"   Strlen:"<<strlen(attributeName) << endl;
+
+			tableFile.read((char*)&noRows, sizeof(int));
+
+		}
+
+	}
+	else {
+		cout << "file could not be opened";
+	}
 }
 
 void Table::displayTable()

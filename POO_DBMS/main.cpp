@@ -30,6 +30,25 @@ Update update;
 
 int main()
 {
+	string tableList[30];
+	int contor = 0;
+	ifstream tableListFile("tableList.txt");
+	string str;
+
+	while (tableListFile>>str)
+	{
+		tableList[contor] = str;
+		contor++;
+
+	}
+
+
+	cout << "Table list: ";
+	for(int i=0;i<contor;i++)
+	cout<<i+1<<": "<< tableList[i] << ", ";
+
+		cout<<endl<<"--------------"<<endl;
+
 	Table tabel;
 	string userInput;
 	Instructions instruction;
@@ -74,11 +93,11 @@ int main()
 		}break;
 		case(INSERT):
 		{
+			Table tableInsert;
 			insert.parseUserInput(userInput);
-			insertt = insert;
-
 			insert.displayAll();
-			insertt.displayAll();
+
+			tableInsert.readTable(insert.getIdentifier());
 		}break;
 		case(SELECT):
 		{
@@ -100,5 +119,8 @@ int main()
 			break;
 		}
 	}
+
+
+	tableListFile.close();
 
 }

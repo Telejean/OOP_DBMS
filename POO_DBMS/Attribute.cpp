@@ -114,7 +114,6 @@ void Attribute::setMaxRows(int max)
 	if (max > 0)
 	{
 		this->maxRows = max;
-
 	}
 	else
 	{
@@ -158,6 +157,7 @@ void Attribute::setStringData(string* stringData) {
 void Attribute::setName(char* name) {
 	if (name != nullptr)
 	{
+		if(this->name!=nullptr)
 		delete[] this->name;
 		this->name = new char[strlen(name) + 1];
 		strcpy(this->name, name);

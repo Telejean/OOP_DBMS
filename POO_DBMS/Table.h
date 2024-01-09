@@ -24,5 +24,6 @@ public:
 	friend ostream& operator<<(ostream&, Table&);
 
 	void saveTable();
+	void readTable(string tableName);
 	void displayTable();
 };
