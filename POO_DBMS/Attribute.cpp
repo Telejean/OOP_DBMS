@@ -325,6 +325,43 @@ void Attribute::operator=(Attribute& a)
 	this->type = a.type;
 }
 
+ostream& operator<<(ostream& console, Attribute& a) {
+		
+	console << a.getName() << endl;
+	switch (a.getDatatype())
+		{
+		case INTEGER:
+		{
+			for (int i = 0; i <a.getNoRows(); i++)
+			{
+				console <<endl<< a.getIntergerData()[i];
+			}
+
+		}
+		break;
+		case REAL:
+		{
+			for (int i = 0; i < a.getNoRows(); i++)
+			{
+				console <<endl<< a.getFloatData()[i];
+			}
+		}
+		break;
+		case TEXT:
+		{
+			for (int i = 0; i < a.getNoRows(); i++)
+			{
+				console <<endl<< a.getStringData()[i];
+			}
+		}
+		break;
+		default:
+			throw exception("Invalid Data Type in Attribute");
+			break;
+		}
+	return console;
+}
+
 void Attribute::displayAttributes()
 {
 	cout << "Column name: " << this->getName() << endl;

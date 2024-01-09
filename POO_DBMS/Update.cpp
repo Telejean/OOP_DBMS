@@ -226,9 +226,6 @@ void Update::findIdentdifier2(Table t)
 		throw exception("Invalid Data Type");
 		break;
 	}
-
-
-
 }
 
 #pragma endregion

@@ -23,8 +23,8 @@ Select::Select(string variant, string identifier, int noParams, string condition
 	if (params != nullptr)
 	{
 		this->params = new string[noParams];
-		for(int i=0;i<noParams;i++)
-			this->params[i]=params[i];
+		for (int i = 0; i < noParams; i++)
+			this->params[i] = params[i];
 	}
 }
 
@@ -36,7 +36,7 @@ Select::Select(Select& s)
 	this->conditionType = s.getConditionType();
 	this->conditionSpecifier = s.getConditionSpecifier();
 	this->noParams = s.getnoParams();
-	if (s.getParams()!= nullptr)
+	if (s.getParams() != nullptr)
 	{
 		this->params = new string[s.getnoParams()];
 		for (int i = 0; i < s.getnoParams(); i++)
@@ -111,7 +111,7 @@ int Select::getnoParams()
 
 string* Select::getParams()
 {
-	string *copy;
+	string* copy;
 
 	if (this->params != nullptr)
 	{
@@ -159,22 +159,22 @@ void Select::parseUserInput(string userInput)
 
 	for (int i = 0; i < noParams - 1; i++)
 	{
-	    params[i] = userInput.substr(0, userInput.find(','));
+		params[i] = userInput.substr(0, userInput.find(','));
 		userInput.erase(0, userInput.find(',') + 1);
 	}
 
 	params[noParams - 1] = userInput.substr(0, userInput.find(')'));
 	userInput.erase(0, userInput.find(')') + 2);
-		
+
 	this->params = new string[noParams];
 	for (int i = 0; i < noParams; i++)
 	{
-		this->params[i]= params[i];
+		this->params[i] = params[i];
 	}
 
 
 	this->variant = userInput.substr(0, userInput.find(" "));
-	userInput.erase(0, this->variant.size()+1);
+	userInput.erase(0, this->variant.size() + 1);
 
 	this->identifier = userInput.substr(0, userInput.find(" "));
 	userInput.erase(0, this->identifier.size() + 1);
@@ -183,11 +183,11 @@ void Select::parseUserInput(string userInput)
 	userInput.erase(0, this->conditionType.size() + 1);
 
 	this->conditionSpecifier = userInput.substr(0, userInput.find(" "));
-	userInput.erase(0, userInput.find('=')+2);
+	userInput.erase(0, userInput.find('=') + 2);
 
 	this->conditionParam = userInput;
 
-	
+
 
 }
 
@@ -199,8 +199,110 @@ void Select::displayAll()
 		cout << this->params[i] << " ";
 	}
 	cout << endl;
-	cout << "Variant: " << this->variant <<"\n" << "Identifier: " << this->identifier << "\n" << "Condition type: " << this->conditionType<<"\n" << "Condition parameter: ";
-	cout << this->conditionParam<<"\n" << "Condition specifier: " << this->conditionSpecifier << endl;
+	cout << "Variant: " << this->variant << "\n" << "Identifier: " << this->identifier << "\n" << "Condition type: " << this->conditionType << "\n" << "Condition parameter: ";
+	cout << this->conditionParam << "\n" << "Condition specifier: " << this->conditionSpecifier << endl;
+}
+
+void Select::searchParams(Table t)
+{
+	Attribute c = searchInTableForColumns(t, conditionSpecifier);
+	int x = searchInTableForPositions(t, params[0]);
+	switch (c.getDatatype())
+	{
+	case INTEGER:
+	{
+		for (int j = 0; j < c.getNoRows(); j++) {
+			if (c.getIntergerData()[j] == stoi(conditionParam)) {
+				if (this->noParams == 1) {
+					if (searchInTableForColumns(t, params[0]).getDatatype() == INTEGER) {
+						searchInTableForColumns(t, params[0]).getIntergerData()[x];
+					 }
+					if (searchInTableForColumns(t, params[0]).getDatatype() == REAL) {
+						searchInTableForColumns(t, params[0]).getFloatData()[x];
+					}
+					if (searchInTableForColumns(t, params[0]).getDatatype() == TEXT) {
+						searchInTableForColumns(t, params[0]).getStringData()[x];
+					}
+					else cout << "murim";
+
+				}
+				if (this->noParams > 1) {
+					Attribute* b = new Attribute[noParams];
+					for (int i = 0; i < noParams; i++) {
+						searchInTableForPositions(t, params[i]);
+					}
+				}
+				else {
+					throw exception("wrong parameters");
+				}
+			}
+		}
+	}
+	break;
+	case REAL:
+	{
+		for (int j = 0; j < c.getNoRows(); j++) {
+			if (c.getFloatData()[j] == stof(conditionParam)) {
+
+			}
+		}
+	}
+	break;
+	case TEXT:
+	{
+		for (int j = 0; j < c.getNoRows(); j++) {
+			if (c.getStringData()[j] == conditionParam) {
+
+			}
+		}
+	}
+	break;
+	default:
+		throw exception("Invalid Data Type in select");
+		break;
+	}
+
+	if (this->noParams == 1) {
+		
+	}
+	if (this->noParams > 1) {
+		Attribute* b = new Attribute[noParams];
+		for (int i = 0; i < noParams; i++){
+			searchInTableForColumns(t, params[i]);
+		}
+	}
+	else {
+		throw exception("wrong parameters");
+	}
+}
+
+Attribute Select::searchInTableForColumns(Table t, string u)
+{
+	for (int i = 0; i < t.getNoAttributes(); i++) {
+		if (strcmp(u.c_str(), t.getAttribute()[i].getName()) == 0) {
+			return t.getAttribute()[i];
+		}
+		else
+			cout << "We couldn t search";
+	}
+
+}
+
+int Select::searchInTableForPositions(Table t, string u)
+{
+	for (int i = 0; i < t.getNoAttributes(); i++) {
+		if (strcmp(u.c_str(), t.getAttribute()[i].getName()) == 0) {
+			return i;
+		}
+		else
+			cout << "We couldn t search";
+	}
+
+}
+
+void Select::searchConditionSpecifier(Table t)
+{
+	searchInTableForColumns(t, conditionSpecifier);
 }
 
 
@@ -212,6 +314,6 @@ void Select::operator=(Select& s)
 	this->variant = s.getVariant();
 	this->identifier = s.getIdentifier();
 	this->conditionParam = s.getConditionParam();
-	this->conditionSpecifier= s.getConditionSpecifier();
+	this->conditionSpecifier = s.getConditionSpecifier();
 	this->conditionType = s.getConditionType();
 }

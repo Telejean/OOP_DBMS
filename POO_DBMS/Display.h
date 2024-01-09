@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 using namespace std;
-
+#include "Table.h"
 class Display {
 	string variant;
 	string identifier;
@@ -23,6 +23,8 @@ public:
 	//Methods
 	void parseUserInput(string userInput);
 	void displayAll();
+	void displayTable(Table t);
+
 
 	//Operators
 	void operator=(Display& d);

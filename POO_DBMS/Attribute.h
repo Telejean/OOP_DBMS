@@ -44,6 +44,6 @@ public:
 	void saveInFile(char* filename, ostream f);
 
 	void operator=(Attribute& attribute);
-
+	friend ostream& operator<<(ostream& console, Attribute& a);
 	void displayAttributes();
 };
