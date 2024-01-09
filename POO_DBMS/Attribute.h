@@ -35,7 +35,7 @@ public:
 	void setFloatData(float* floatData);
 	void setStringData(string* stringData);
 
-	void saveInFile();
+	void saveInFile(char* filename, ostream f);
 
 	void operator=(Attribute& attribute);
 

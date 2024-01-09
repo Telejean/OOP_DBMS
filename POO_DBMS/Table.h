@@ -23,6 +23,6 @@ public:
 	void operator=(Create& c);
 	friend ostream& operator<<(ostream&, Table&);
 
+	void saveTable();
 	void displayTable();
 };
-

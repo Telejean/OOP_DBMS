@@ -27,9 +27,10 @@ Display display;
 Select select;
 Update update;
 
+
 int main()
 {
-
+	Table tabel;
 	string userInput;
 	Instructions instruction;
 	COMMAND_TYPES command = UNDEFINED;
@@ -55,10 +56,9 @@ int main()
 		{
 			create.parseUserInput(userInput);
 			create.displayAll();
-			Table tabel;
 			tabel = create;
-
 			tabel.displayTable();
+			tabel.saveTable();
 
 		}break;
 		case(DROP):
@@ -69,8 +69,8 @@ int main()
 		case(DISPLAY):
 		{
 			display.parseUserInput(userInput);
-			//	display.displayAll();
 			cout << display;
+
 		}break;
 		case(INSERT):
 		{
@@ -93,7 +93,6 @@ int main()
 		case(DELETE):
 		{
 			delet.parseUserInput(userInput);
-			//delet.displayAll();
 			cout << delet;
 		}break;
 		default:

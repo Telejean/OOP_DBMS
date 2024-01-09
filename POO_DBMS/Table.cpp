@@ -79,7 +79,6 @@ void Table::convertParams(CreateParams* p, int noColumns)
 			columnName[j] = p[i].getColumnName()[j];
 
 		this->attributes[i].setName(columnName);
-		this->attributes[i].saveInFile();
 		if (p[i].getColumnType() == "text" || p[i].getColumnType() == "Text" || p[i].getColumnType() == "TEXT")
 		{
 			this->attributes[i].setDatatype(TEXT);
@@ -121,6 +120,56 @@ void Table::operator=(Create& c)
 	this->attributes = new Attribute[c.getNoColumns()];
 	this->convertParams(c.getParams(), c.getNoColumns());
 
+}
+
+void Table::saveTable()
+{
+	ofstream tableFile(this->getName(), ios::binary);
+
+	tableFile.write(this->getName(), strlen(this->getName()) * sizeof(char));
+
+	int noAttributes = this->getNoAttributes();
+
+	tableFile.write((char*)&noAttributes, sizeof(int));
+
+
+	for (int i = 0; i < this->getNoAttributes(); i++)
+	{
+		tableFile.write(this->attributes[i].getName(), strlen(this->attributes[i].getName()) * sizeof(char));
+		int noRows = this->attributes[i].getNoRows();
+		tableFile.write((char*)&noRows, sizeof(int));
+
+		switch (this->attributes[i].getDatatype())
+		{
+		case INTEGER:
+		{
+			for (int j = 0; j < noRows; j++)
+			{
+				tableFile.write((char*)&this->attributes[i].getIntergerData()[j], sizeof(float));
+			}
+
+		}
+		break;
+		case REAL:
+		{
+			for (int j = 0; j < noRows; j++)
+				tableFile.write((char*)&this->attributes[i].getFloatData()[j], sizeof(float));
+
+		}
+		break;
+		case TEXT:
+		{
+			for (int j = 0; j < noRows; j++)
+				tableFile.write((char*)&this->attributes[i].getStringData()[j], sizeof(string));
+		}
+		break;
+		default:
+			throw exception("Invalid Data Type");
+			break;
+		}
+	}
+
+	tableFile.close();
 }
 
 void Table::displayTable()

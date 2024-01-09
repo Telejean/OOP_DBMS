@@ -74,9 +74,16 @@ Datatype Attribute::getDatatype() {
 }
 int* Attribute::getIntergerData()
 {
-	int* copy = new int[this->noRows];
-	for (int i = 0; i < this->noRows; i++)
-		copy[i] = this->integerData[i];
+	int* copy;
+	if (this->integerData != nullptr)
+	{
+		copy = new int[this->noRows];
+		for (int i = 0; i < this->noRows; i++)
+			copy[i] = this->integerData[i];
+	}else{
+		copy = nullptr;
+	}
+
 	return copy;
 }
 float* Attribute::getFloatData()
@@ -165,12 +172,43 @@ void Attribute::setFloatData(float* f) {
 	}
 
 }
-void Attribute::saveInFile()
+void Attribute::saveInFile(char* filename, ostream f)
 {
-	ofstream f("columns.bin", ios::binary);
-	unsigned length = strlen(this->name);
-	f.write((char*)&length, sizeof(length));
-	f.write(this->name, length + 1);
+
+	f.write(this->name, strlen(this->name) * sizeof(char));
+	f.write((char*)&this->noRows, sizeof(int));
+
+	switch (this->getDatatype())
+	{
+	case INTEGER:
+	{
+		for (int i = 0; i < this->getNoRows(); i++)
+		{
+			f.write((char*)3, sizeof(int));
+			cout << "caca";
+
+		}
+
+	}
+	break;
+	case REAL:
+	{
+		for (int i = 0; i < this->getNoRows(); i++)
+			f.write((char*)&this->getFloatData()[i], sizeof(float));
+
+	}
+	break;
+	case TEXT:
+	{
+		for (int i = 0; i < this->getNoRows(); i++)
+			f.write((char*)&this->getStringData()[i], sizeof(string));
+	}
+	break;
+	default:
+		throw exception("Invalid Data Type");
+		break;
+	}
+	
 }
 
 void Attribute::operator=(Attribute& a)
