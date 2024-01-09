@@ -246,7 +246,7 @@ void Table::readTable(string tableName)
 			attributeNameLength++;
 			attributeName = new char[attributeNameLength];
 
-			cout << "pos:" << tableFile.tellg() << endl;
+			cout << "pos:" << tableFile.tellg();
 			tableFile.read(attributeName, attributeNameLength * sizeof(char));
 			attributeName[attributeNameLength-1] = '\0';
 			this->attributes[i].setName(attributeName);
