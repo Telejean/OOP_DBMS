@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/POO_DBMS/students
+/POO_DBMS/Attribute.cpp
+/.gitignore
+/.gitignore

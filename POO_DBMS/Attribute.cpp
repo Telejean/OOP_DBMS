@@ -119,7 +119,6 @@ void Attribute::setMaxRows(int max)
 	else
 	{
 		throw exception("invalid max rows");
-
 	}
 }
 
