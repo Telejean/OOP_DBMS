@@ -153,6 +153,12 @@ string Delete::getConditionParam()
 	return this->conditionParam;
 }
 
+const char* Delete::getCommandName()
+{
+	return this->commandName;
+}
+
+
 #pragma endregion
 
 void Delete::parseUserInput(string userInput)

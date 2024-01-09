@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include "Attribute.h"
+#include "Table.h"
 using namespace std;
 
 
@@ -40,6 +42,9 @@ public:
 	//Methods
 	void parseUserInput(string userInput);
 	void displayAll();
+	Attribute searchInTableForColumn(Table t, string u);
+	void findIdentdifier2(Attribute a, Table t);
+	void updateColumn(Attribute a, int i);
 
 	//Overloads
 	Update operator=(const Update& U);

@@ -45,7 +45,7 @@ void Drop::parseUserInput(string userInput)
 	userInput.erase(0, this->variant.size() + 1);
 
 	this->identifier = userInput;
-
+	deleteFile(this->identifier);
 }
 
 void Drop::displayAll()
@@ -53,11 +53,25 @@ void Drop::displayAll()
 	cout <<"Variant:"<< this->variant << endl << "Identifier:" << this->identifier << endl;
 }
 
+void Drop::deleteFile(const string filename)
+{
+	int result = remove(filename.c_str());
+	if (result == 0)
+	{
+		cout << "File deleted successfully." << endl;
+	}
+	else
+	{
+		cout << "Error deleting the file." << endl;
+	}
+}
+
 void Drop::operator=(Drop& d)
 {
 	this->identifier = d.getIdentifier();
 	this->variant = d.getVariant();
 }
+
 
 void operator<<(ostream& console, Drop& d)
 {

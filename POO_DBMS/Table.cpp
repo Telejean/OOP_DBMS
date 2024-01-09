@@ -129,21 +129,17 @@ void Table::saveTable()
 
 	if (tableFile)
 	{
-		if (tableFile.fail())
-		{
-			cout << "File failed" << endl;
-			return;
-		}
-
 		int noAttributes = this->getNoAttributes();
 		//1. We write the number of attributes
-		tableFile.write((char*)&noAttributes, sizeof(int));
 
+		tableFile.write((char*)&noAttributes, sizeof(int));
 
 		for (int i = 0; i < this->getNoAttributes(); i++)
 		{
 			//2. We write the lenght of the name of the attribute
-			tableFile.write((char*)strlen(this->attributes[i].getName()), sizeof(int));
+			cout << this->attributes[i].getName() << endl;
+			int lenghtOfName = strlen(this->attributes[i].getName());
+			tableFile.write((char*)&lenghtOfName, sizeof(int));
 
 			//3. We write the name of the attribute
 			tableFile.write(this->attributes[i].getName(), strlen(this->attributes[i].getName()) * sizeof(char));
@@ -188,7 +184,7 @@ void Table::saveTable()
 				{
 					if (stringData != nullptr)
 						tableFile.write((char*)stringData[j].length(), sizeof(int));
-						tableFile.write(stringData[j].c_str(), sizeof(string));
+					tableFile.write(stringData[j].c_str(), sizeof(string));
 				}
 
 			}
@@ -206,7 +202,7 @@ void Table::saveTable()
 		cout << "File couldn not be opened";
 	}
 
-	
+
 }
 
 void Table::displayTable()

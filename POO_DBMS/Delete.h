@@ -29,10 +29,11 @@ public:
 	string getConditionType();
 	string getConditionSpecifier();
 	string getConditionParam();
-	const char getCommandName();
+	const char* getCommandName();
 
 	void parseUserInput(string userInput);
 	void displayAll();
+	void deleteRow();
 
 	void operator=(Delete& d);
 	friend void operator<<(ostream &console, Delete  d);

@@ -19,6 +19,7 @@ public:
 
 	void parseUserInput(string userInput);
 	void displayAll();
+	void deleteFile(const string filename);
 
 	void operator=(Drop& d);
 	friend void operator<<(ostream& console, Drop &d);

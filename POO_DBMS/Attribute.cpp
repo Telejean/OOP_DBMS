@@ -111,7 +111,7 @@ int Attribute::getNoRows()
 
 void Attribute::setMaxRows(int max)
 {
-	if (max > 0)
+	if (max >= 0)
 	{
 		this->maxRows = max;
 
@@ -149,6 +149,30 @@ void Attribute::setStringData(string* stringData) {
 		throw exception("No string data");
 	}
 
+}
+
+void Attribute::setIntOnSpecifiedPosition(int n,int i)
+{
+	if (this->integerData != nullptr)
+	{
+		this->integerData[i] = n;
+	}
+}
+
+void Attribute::setFloatOnSpecifiedPosition(int f, int i)
+{
+	if (this->floatData != nullptr)
+	{
+		this->floatData[i] = f;
+	}
+}
+
+void Attribute::setStringOnSpecifiedPosition(string s, int i)
+{
+	if (this->stringData != nullptr)
+	{
+		this->stringData[i] = s;
+	}
 }
 
 

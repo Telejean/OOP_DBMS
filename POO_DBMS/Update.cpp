@@ -1,4 +1,6 @@
 #include "Update.h"
+#include "Table.h"
+
 
 #pragma region Constructors
 Update::Update()
@@ -10,7 +12,7 @@ Update::Update()
 	this->conditionSpecifier = "undefined";
 }
 
-Update::Update(string variant, string identifier, string identifier2,string param, string conditionType, string conditionSpecifier, string conditionParam)
+Update::Update(string variant, string identifier, string identifier2, string param, string conditionType, string conditionSpecifier, string conditionParam)
 {
 	this->variant = variant;
 	this->identifier = identifier;
@@ -119,7 +121,7 @@ void Update::parseUserInput(string userInput)
 {
 	userInput.erase(0, userInput.find(" ") + 1);
 	this->identifier = userInput.substr(0, userInput.find(" "));
-	userInput.erase(0, this->identifier.size()+1);
+	userInput.erase(0, this->identifier.size() + 1);
 
 	this->variant = userInput.substr(0, userInput.find(" "));
 	userInput.erase(0, this->variant.size() + 1);
@@ -135,18 +137,97 @@ void Update::parseUserInput(string userInput)
 
 
 	this->conditionSpecifier = userInput.substr(0, userInput.find(" "));
-	userInput.erase(0, userInput.find('=')+2);
+	userInput.erase(0, userInput.find('=') + 2);
 
 	this->conditionParam = userInput;
-
-	
 
 }
 
 void Update::displayAll()
 {
-	cout <<"Identifier: " << this->identifier << " Variant:" << this->variant << " Identifier2" << this->identifier2 << " Parameter" << this->param << " Condition Type";
-	cout<< this->conditionType << " Condition Specifier" << this->conditionSpecifier << " ConditionParam" << this->conditionParam << endl;
+	cout << "Identifier: " << this->identifier << " Variant:" << this->variant << " Identifier2" << this->identifier2 << " Parameter" << this->param << " Condition Type";
+	cout << this->conditionType << " Condition Specifier" << this->conditionSpecifier << " ConditionParam" << this->conditionParam << endl;
+}
+
+Attribute Update::searchInTableForColumn(Table t, string u)
+{
+	for (int i = 0; i < t.getNoAttributes(); i++) {
+		if (strcmp(u.c_str(), t.getAttribute()[i].getName()) == 0) {
+			return t.getAttribute()[i];
+		}
+	}
+}
+
+void Update::updateColumn(Attribute a, int i) {
+	switch (a.getDatatype())
+	{
+	case INTEGER:
+	{
+		a.setIntOnSpecifiedPosition(stoi(this->param), i);
+
+	}
+	break;
+	case REAL:
+	{
+		a.setFloatOnSpecifiedPosition(stof(this->param), i);
+	}
+	break;
+	case TEXT:
+	{
+		a.setStringOnSpecifiedPosition(this->param, i);
+
+	}
+	break;
+	default:
+		throw exception("Invalid Data Type");
+		break;
+	}
+}
+
+
+void Update::findIdentdifier2(Attribute a, Table t)
+{
+	switch (a.getDatatype())
+	{
+	case INTEGER:
+	{
+		for (int i = 0; i < a.getNoRows(); i++) {
+			if (a.getIntergerData()[i] == stoi(this->conditionParam)) {
+
+				updateColumn(searchInTableForColumn(t, identifier2), i);
+			}
+		}
+	}
+	break;
+	case REAL:
+	{
+		for (int i = 0; i < a.getNoRows(); i++) {
+			if (a.getFloatData()[i] == stof(this->conditionParam)) {
+
+				updateColumn(searchInTableForColumn(t, identifier2), i);
+			}
+		}
+
+	}
+	break;
+	case TEXT:
+	{
+		for (int i = 0; i < a.getNoRows(); i++) {
+			if (a.getStringData()[i] == this->conditionParam) {
+
+				updateColumn(searchInTableForColumn(t, identifier2), i);
+			}
+		}
+
+	}
+	break;
+	default:
+		throw exception("Invalid Data Type");
+		break;
+	}
+
+
+
 }
 
 #pragma endregion
