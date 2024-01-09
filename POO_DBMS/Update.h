@@ -43,7 +43,7 @@ public:
 	void parseUserInput(string userInput);
 	void displayAll();
 	Attribute searchInTableForColumn(Table t, string u);
-	void findIdentdifier2(Attribute a, Table t);
+	void findIdentdifier2(Table t);
 	void updateColumn(Attribute a, int i);
 
 	//Overloads

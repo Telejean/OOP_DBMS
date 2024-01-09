@@ -1,4 +1,7 @@
 #include "Delete.h"
+#include "Update.h"
+#include "Attribute.h"
+#include "Table.h"
 
 #pragma region Constructors
 Delete::Delete()
@@ -184,6 +187,56 @@ void Delete::displayAll()
 {
 	cout <<"Variant: " << this->variant << "  |Identifier: " << this->identifier << " |Condition type:" << this->conditionType << " |Condition parameter:" << this->conditionParam << " |Condition specifier:" << this->conditionSpecifier << endl;
 
+}
+
+void Delete::deleteRow(Table t)
+{
+	Attribute b = searchInTableForColumn(t, conditionType);
+	switch (b.getDatatype())
+	{
+	case INTEGER:
+	{
+		for (int i = 0; i < t.getNoAttributes(); i++) {
+			if (stoi(conditionParam) == b.getIntergerData()[i]) {
+				
+			}
+		}
+	}
+	break;
+	case REAL:
+	{	
+		for (int i = 0; i < t.getNoAttributes(); i++) {
+			if (stof(conditionParam) == b.getFloatData()[i]) {
+
+			}
+		}
+	}
+	break;
+	case TEXT:
+	{	
+		for (int i = 0; i < t.getNoAttributes(); i++) {
+			if (conditionParam == b.getStringData()[i]) {
+
+			}
+		}
+	}
+	break;
+	default:
+		throw exception("Invalid Data Type");
+		break;
+	}
+}
+
+Attribute Delete::searchInTableForColumn(Table t, string u)
+{
+	for (int i = 0; i < t.getNoAttributes(); i++) {
+		if (strcmp(u.c_str(), t.getAttribute()[i].getName()) == 0) {
+			return t.getAttribute()[i];
+		}
+		else
+			cout << "We couldn t search";
+	}
+	
 }
 
 void Delete::operator=(Delete& d)

@@ -185,14 +185,15 @@ void Update::updateColumn(Attribute a, int i) {
 }
 
 
-void Update::findIdentdifier2(Attribute a, Table t)
+void Update::findIdentdifier2(Table t)
 {
-	switch (a.getDatatype())
+	Attribute b = searchInTableForColumn(t, conditionSpecifier);
+	switch (b.getDatatype())
 	{
 	case INTEGER:
 	{
-		for (int i = 0; i < a.getNoRows(); i++) {
-			if (a.getIntergerData()[i] == stoi(this->conditionParam)) {
+		for (int i = 0; i < b.getNoRows(); i++) {
+			if (b.getIntergerData()[i] == stoi(this->conditionParam)) {
 
 				updateColumn(searchInTableForColumn(t, identifier2), i);
 			}
@@ -201,8 +202,8 @@ void Update::findIdentdifier2(Attribute a, Table t)
 	break;
 	case REAL:
 	{
-		for (int i = 0; i < a.getNoRows(); i++) {
-			if (a.getFloatData()[i] == stof(this->conditionParam)) {
+		for (int i = 0; i < b.getNoRows(); i++) {
+			if (b.getFloatData()[i] == stof(this->conditionParam)) {
 
 				updateColumn(searchInTableForColumn(t, identifier2), i);
 			}
@@ -212,8 +213,8 @@ void Update::findIdentdifier2(Attribute a, Table t)
 	break;
 	case TEXT:
 	{
-		for (int i = 0; i < a.getNoRows(); i++) {
-			if (a.getStringData()[i] == this->conditionParam) {
+		for (int i = 0; i < b.getNoRows(); i++) {
+			if (b.getStringData()[i] == this->conditionParam) {
 
 				updateColumn(searchInTableForColumn(t, identifier2), i);
 			}

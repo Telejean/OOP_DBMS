@@ -33,7 +33,8 @@ public:
 
 	void parseUserInput(string userInput);
 	void displayAll();
-	void deleteRow();
+	void deleteRow(Table t);
+	Attribute searchInTableForColumn(Table t, string u);
 
 	void operator=(Delete& d);
 	friend void operator<<(ostream &console, Delete  d);
