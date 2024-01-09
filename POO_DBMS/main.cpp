@@ -97,8 +97,11 @@ int main()
 			insert.parseUserInput(userInput);
 
 			tableInsert.readTable(insert.getIdentifier());
+
 			insert >> tableInsert;
 			tableInsert.saveTable();
+
+			tableInsert.displayTable();
 
 		}break;
 		case(SELECT):

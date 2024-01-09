@@ -230,29 +230,29 @@ void Attribute::setFloatData(float* f) {
 }
 
 
-void Attribute::setIntOnSpecifiedPosition(int n, int i)
+void Attribute::setIntOnSpecifiedPosition(int data, int pos)
 {
 	if (this->integerData != nullptr)
 	{
-		int* tempArr = new int[n];
-		for (int u = 0; u < i; u++)
+		int* tempArr = new int[pos];
+		for (int u = 0; u < pos; u++)
 		{
 			tempArr[u] = this->integerData[u];
 		}
 		delete[] this->integerData;
 
-		this->integerData = new int[i];
-		for (int u = 0; u < i; u++)
+		this->integerData = new int[pos];
+		for (int u = 0; u < pos; u++)
 		{
 			this->integerData[u] = tempArr[u];
 		}
 		delete[] tempArr;
 	}
 	else {
-		this->integerData = new int[i];
+		this->integerData = new int[pos];
 	}
-
-		this->integerData[i] = n;
+	//cout << "pos: "<<pos<<"  value: "<<data<<endl;
+		this->integerData[pos] = data;
 
 }
 
@@ -342,8 +342,42 @@ ostream& operator<<(ostream& console, Attribute& a) {
 
 void Attribute::displayAttributes()
 {
+	int noRows = this->getNoRows();
 	cout << "Column name: " << this->getName() << endl;
-	cout << "Number of rows: " << this->getNoRows() << endl;
+	cout << "Number of rows: " << noRows << endl;
 	cout << "Data Type:" << this->getDatatype() << endl;
+	switch (this->getDatatype())
+	{
+	case INTEGER:
+	{
+		for (int i = 0; i < noRows; i++)
+		{
+			cout << endl << this->getIntergerData()[i] << endl;
+		}
+	}
+	break;
+	case REAL:
+	{
+		for (int i = 0; i < noRows; i++)
+		{
+			cout << endl << this->getFloatData()[i] << endl;
+		}
+	}
+	break;
+	case TEXT:
+	{
+		for (int i = 0; i < noRows; i++)
+		{
+			cout << endl << this->getStringData()[i] << endl;
+		}
+	}
+	break;
+	default:
+		throw exception("Invalid Data Type in Attribute");
+		break;
+	}
+	for (int i = 0; i < this->getNoRows(); i++)
+	{
+	}
 	cout << "-----------------------------------" << endl;
 }
