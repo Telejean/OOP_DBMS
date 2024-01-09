@@ -16,7 +16,7 @@ Table::Table() {
 	this->name = nullptr;
 	this->noAttributes = 0;
 	this->attributes = nullptr;
-};
+}; 
 
 char* Table::getName() {
 	char* copy;

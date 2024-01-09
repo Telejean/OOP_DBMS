@@ -294,7 +294,7 @@ ostream& operator<<(ostream& console, Attribute& a) {
 			throw exception("Invalid Data Type in Attribute");
 			break;
 		}
-	
+	return console;
 }
 
 void Attribute::displayAttributes()

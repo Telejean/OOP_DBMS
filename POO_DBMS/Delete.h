@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include "Table.h"
+#include "Attribute.h"
 using namespace std;
 
 //Instruction  Variant Identifier          Condition   
