@@ -12,9 +12,10 @@ class Attribute {
 	float* floatData;
 	string* stringData;
 	int noRows;
+	int maxRows;
 
 public:
-	Attribute(char* name, Datatype type, int* intergerData, float* floatData, string* stringData, int noRows);
+	Attribute(char* name, Datatype type, int* intergerData, float* floatData, string* stringData, int noRows, int maxRows);
 	Attribute(const char* name, Datatype type);
 	Attribute();
 
@@ -25,9 +26,11 @@ public:
 	float* getFloatData();
 	string* getStringData();
 	int getNoRows();
+	int getMaxRows();
 
 
 	//SETTERS
+	void setMaxRows(int max);
 	void setName(char* name);
 	void setDatatype(Datatype type);
 	void setIntegerData(int* interger);

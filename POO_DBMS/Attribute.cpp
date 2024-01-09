@@ -14,12 +14,13 @@ Attribute::Attribute() {
 	this->stringData = nullptr;
 	this->noRows = 0;
 	this->type = { INTEGER };
+	this->maxRows = 0;
 
 }
 
 
 
-Attribute::Attribute(char* name, Datatype type, int* intergerData, float* floatData, string* stringData, int noRows)
+Attribute::Attribute(char* name, Datatype type, int* intergerData, float* floatData, string* stringData, int noRows, int maxRows)
 {
 	this->setName(name);
 	this->setDatatype(type);
@@ -59,7 +60,9 @@ Attribute::Attribute(const char* name, Datatype type) {
 }
 
 
-
+int Attribute::getMaxRows() {
+	return this->maxRows;
+}
 
 
 char* Attribute::getName() {
@@ -77,13 +80,14 @@ int* Attribute::getIntergerData()
 	int* copy;
 	if (this->integerData != nullptr)
 	{
+		delete[] this->integerData;
 		copy = new int[this->noRows];
 		for (int i = 0; i < this->noRows; i++)
 			copy[i] = this->integerData[i];
-	}else{
-		copy = nullptr;
 	}
-
+	else {
+		copy = {};
+	}
 	return copy;
 }
 float* Attribute::getFloatData()
@@ -103,6 +107,20 @@ string* Attribute::getStringData()
 int Attribute::getNoRows()
 {
 	return this->noRows;
+}
+
+void Attribute::setMaxRows(int max)
+{
+	if (max > 0)
+	{
+		this->maxRows = max;
+
+	}
+	else
+	{
+		throw exception("invalid max rows");
+
+	}
 }
 
 void Attribute::setDatatype(Datatype type) {
@@ -133,6 +151,8 @@ void Attribute::setStringData(string* stringData) {
 	}
 
 }
+
+
 
 
 void Attribute::setName(char* name) {
@@ -208,7 +228,7 @@ void Attribute::saveInFile(char* filename, ostream f)
 		throw exception("Invalid Data Type");
 		break;
 	}
-	
+
 }
 
 void Attribute::operator=(Attribute& a)

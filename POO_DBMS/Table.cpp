@@ -69,7 +69,7 @@ void Table::convertParams(CreateParams* p, int noColumns)
 {
 	for (int i = 0; i < noColumns; i++)
 	{
-		this->attributes[i].setNoRows(p[i].getColumnSize());
+		this->attributes[i].setMaxRows(p[i].getColumnSize());
 
 
 		char* columnName;
@@ -124,52 +124,89 @@ void Table::operator=(Create& c)
 
 void Table::saveTable()
 {
+
 	ofstream tableFile(this->getName(), ios::binary);
 
-	tableFile.write(this->getName(), strlen(this->getName()) * sizeof(char));
-
-	int noAttributes = this->getNoAttributes();
-
-	tableFile.write((char*)&noAttributes, sizeof(int));
-
-
-	for (int i = 0; i < this->getNoAttributes(); i++)
+	if (tableFile)
 	{
-		tableFile.write(this->attributes[i].getName(), strlen(this->attributes[i].getName()) * sizeof(char));
-		int noRows = this->attributes[i].getNoRows();
-		tableFile.write((char*)&noRows, sizeof(int));
+		if (tableFile.fail())
+		{
+			cout << "File failed" << endl;
+			return;
+		}
 
-		switch (this->attributes[i].getDatatype())
+		int noAttributes = this->getNoAttributes();
+		//1. We write the number of attributes
+		tableFile.write((char*)&noAttributes, sizeof(int));
+
+
+		for (int i = 0; i < this->getNoAttributes(); i++)
 		{
-		case INTEGER:
-		{
-			for (int j = 0; j < noRows; j++)
+			//2. We write the lenght of the name of the attribute
+			tableFile.write((char*)strlen(this->attributes[i].getName()), sizeof(int));
+
+			//3. We write the name of the attribute
+			tableFile.write(this->attributes[i].getName(), strlen(this->attributes[i].getName()) * sizeof(char));
+
+
+			//4. We write the number of entries the attribute has
+			int noRows = this->attributes[i].getNoRows();
+			tableFile.write((char*)&noRows, sizeof(int));
+			int* integerData = this->attributes[i].getIntergerData();
+			float* realData = this->attributes[i].getFloatData();
+			string* stringData = this->attributes[i].getStringData();
+
+			switch (this->attributes[i].getDatatype())
 			{
-				tableFile.write((char*)&this->attributes[i].getIntergerData()[j], sizeof(float));
+			case INTEGER:
+			{
+				for (int j = 0; j < noRows; j++)
+				{
+					if (integerData != nullptr)
+					{
+						tableFile.write((char*)&integerData[j], sizeof(int));
+					}
+				}
+
 			}
-
-		}
-		break;
-		case REAL:
-		{
-			for (int j = 0; j < noRows; j++)
-				tableFile.write((char*)&this->attributes[i].getFloatData()[j], sizeof(float));
-
-		}
-		break;
-		case TEXT:
-		{
-			for (int j = 0; j < noRows; j++)
-				tableFile.write((char*)&this->attributes[i].getStringData()[j], sizeof(string));
-		}
-		break;
-		default:
-			throw exception("Invalid Data Type");
 			break;
+			case REAL:
+			{
+				for (int j = 0; j < noRows; j++)
+				{
+					if (realData != nullptr)
+						tableFile.write((char*)&realData[j], sizeof(float));
+
+				}
+
+
+			}
+			break;
+			case TEXT:
+			{
+				for (int j = 0; j < noRows; j++)
+				{
+					if (stringData != nullptr)
+						tableFile.write((char*)stringData[j].length(), sizeof(int));
+						tableFile.write(stringData[j].c_str(), sizeof(string));
+				}
+
+			}
+			break;
+			default:
+				throw exception("Invalid Data Type");
+				break;
+			}
 		}
+
+		tableFile.close();
+		cout << "victorie";
+	}
+	else {
+		cout << "File couldn not be opened";
 	}
 
-	tableFile.close();
+	
 }
 
 void Table::displayTable()
