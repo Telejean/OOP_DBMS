@@ -24,7 +24,7 @@ char* Table::getName() {
 	if (this->name != nullptr)
 	{
 		copy = new char[strlen(this->name) + 1];
-		strcpy(copy, name);
+		strcpy(copy, this->name);
 
 	}
 	else {
@@ -34,7 +34,19 @@ char* Table::getName() {
 
 }
 Attribute* Table::getAttribute() {
-	return this->attributes;
+	Attribute* copy;
+	if (this->attributes != nullptr)
+	{
+		int arrSize = this->getNoAttributes();
+		 copy = new Attribute[arrSize];
+		 for (int i = 0; i < arrSize; i++)
+			 copy[i] = this->attributes[i];
+	}
+	else {
+		copy = nullptr;
+	}
+	cout << "attributes returned!" << '\n';
+	return copy;
 }
 int Table::getNoAttributes() {
 	return noAttributes;
@@ -98,8 +110,18 @@ void Table::convertParams(CreateParams* p, int noColumns)
 
 
 Table::~Table() {
-	delete[] this->name;
-	delete[] this->attributes;
+
+		delete[] name;
+
+		//for (int i = 0; i < noAttributes; ++i) {
+		//	delete[] this->attributes[i].dealocateName();
+		//	delete[] this->attributes[i].dealocateFloatData();
+		//	delete[] this->attributes[i].dealocateIntegerData();
+		//	delete[] this->attributes[i].dealocateStringData();
+		//}
+
+		for (int i = 0; i < noAttributes; i++)
+			this->attributes[i].~Attribute();
 }
 
 void Table::operator=(Create& c)
@@ -270,7 +292,7 @@ void Table::readTable(string tableName)
 
 
 		cout << "noRows" << noRows<<endl;
-
+		cout << "Attribute 0:" << endl;
 		switch (static_cast<Datatype>(dataType))
 		{
 		case INTEGER:
@@ -280,6 +302,7 @@ void Table::readTable(string tableName)
 				tableFile.read((char*)&intArr[j], sizeof(int));
 				cout << "intArr " << j << ": " << intArr[j] << " ";
 			}
+			cout << endl;
 		}
 		break;
 		case REAL:
@@ -295,9 +318,9 @@ void Table::readTable(string tableName)
 			for (int j = 0; j < noRows; j++)
 			{
 				tableFile.read((char*)&stringArr[j], sizeof(string));
-				//cout << "stringArr " << j << ": " << stringArr[j] << " ";
-
+				cout << "stringArr " << j << ": " << stringArr[j] << " ";
 			}
+			cout << endl;
 		}
 		break;
 		default:
@@ -307,6 +330,7 @@ void Table::readTable(string tableName)
 
 		for (int i = 1; i < noAttributes; i++)
 		{
+			cout << "Attribute " << i << endl;
 			tableFile.read((char*)&attributeNameLength, sizeof(int));
 			attributeNameLength++;
 			attributeName = new char[attributeNameLength];
@@ -324,7 +348,7 @@ void Table::readTable(string tableName)
 
 			tableFile.read((char*)&dataType, sizeof(int));
 			this->attributes[i].setDatatype(static_cast<Datatype>(dataType));
-
+			cout << "Data type: " << dataType << endl;
 			delete[] attributeName;
 			attributeName = nullptr;
 
@@ -338,6 +362,7 @@ void Table::readTable(string tableName)
 						tableFile.read((char*)&intArr[j], sizeof(int));
 						cout<<"intArr "<<j<<": " << intArr[j] << " ";
 					}
+					cout << endl;
 				}
 				break;
 				case REAL:
@@ -355,9 +380,9 @@ void Table::readTable(string tableName)
 					for (int j = 0; j < noRows; j++)
 					{
 						tableFile.read((char*)&stringArr[j], sizeof(string));
-						//cout << "stringArr " << j << ": " << stringArr[j] << " ";
-
+						cout << "stringArr " << j << ": " << stringArr[j] << " ";
 					}
+					cout << endl;
 				}
 				break;
 				default:
@@ -377,8 +402,10 @@ void Table::readTable(string tableName)
 
 void Table::displayTable()
 {
+	cout << endl << "DISPLAYING TABLE" << endl;
 	cout << "Tabel name: " << this->getName() << endl;
 	cout << "Number of columns: " << this->getNoAttributes() << endl;
+	cout << "Number of rows: " << this->attributes->getNoRows() << endl<<endl;
 	for (int i = 0; i < this->getNoAttributes(); i++)
 	{
 		this->attributes[i].displayAttributes();
@@ -391,34 +418,38 @@ void Table::displayTable()
 ostream& operator>>(Insert& ins, Table& t)
 {
 	int noAttributes= t.getNoAttributes();
-	int noRows = t.getAttribute()->getNoRows();
+	Attribute* attributes = new Attribute[noAttributes];
+	attributes = t.getAttribute();
+	int noRows = attributes[0].getNoRows();
 	noRows++;
-
+	cout << noRows << endl;
 	for (int i = 0; i < noAttributes; i++)
 	{
-		t.getAttribute()[i].setNoRows(noRows);
+		attributes[i].setNoRows(noRows);
 
-		switch (t.getAttribute()[i].getDatatype())
+		switch (attributes[i].getDatatype())
 		{
+
 		case INTEGER:
-		{
+		{		
 			int intData= stoi(ins.getParams()[i]);
-			t.getAttribute()[i].setIntOnSpecifiedPosition(intData, noRows-1);
-			//cout << "intData-a: " << intData << " ";
-			//cout << "   testpt2: " << t.getAttribute()[i].getIntergerData()[noRows-1];
+			attributes[i].setIntOnSpecifiedPosition(intData, noRows-1);
+			cout << "intData-a: " << intData << " ";
+			cout << "   testpt2: " << attributes[i].getIntergerData()[noRows-1]<<endl;
 		}
 		break;
 		case REAL:
 		{
 			int realData = stof(ins.getParams()[i]);
-			t.getAttribute()[i].setFloatOnSpecifiedPosition(realData, noRows-1);
+			attributes[i].setFloatOnSpecifiedPosition(realData, noRows-1);
 		}
 		break;
 		case TEXT:
 		{			
 			string stringData = ins.getParams()[i];
-			t.getAttribute()[i].setStringOnSpecifiedPosition(stringData, noRows-1);
-		//	cout << "stringData: " << stringData<<" ";
+			attributes[i].setStringOnSpecifiedPosition(stringData, noRows-1);
+			cout << "stringData: " << stringData<<" ";
+			cout << "testString2: " << attributes[i].getStringData()[noRows - 1]<<endl;
 		}
 		break;
 
@@ -427,6 +458,7 @@ ostream& operator>>(Insert& ins, Table& t)
 			throw exception("Invalid Data Type");
 			break;
 		}
+		t.setAttributes(attributes);
 		cout << endl;
 	}
 }

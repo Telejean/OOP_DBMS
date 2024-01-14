@@ -39,7 +39,6 @@ int main()
 	{
 		tableList[contor] = str;
 		contor++;
-
 	}
 
 
@@ -95,19 +94,23 @@ int main()
 		{
 			Table tableInsert;
 			insert.parseUserInput(userInput);
+			insert >> tabel;
+			tabel.displayTable();
+	    //	tableInsert.readTable(insert.getIdentifier());
+		//	tableInsert.displayTable();
 
-			tableInsert.readTable(insert.getIdentifier());
+		//	insert >> tableInsert;
 
-			insert >> tableInsert;
-			tableInsert.saveTable();
+		//	tableInsert.saveTable();
 
-			tableInsert.displayTable();
+
 
 		}break;
 		case(SELECT):
 		{
 			select.parseUserInput(userInput);
 			select.displayAll();
+			
 		}break;
 		case(UPDATE):
 		{

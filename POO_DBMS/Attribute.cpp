@@ -66,10 +66,19 @@ int Attribute::getMaxRows() {
 
 
 char* Attribute::getName() {
-	char* copy = new char[strlen(name) + 1];
-	for (int i = 0; i < strlen(name) + 1; i++) {
-		copy[i] = name[i];
+	char* copy;
+	if (this->name != nullptr)
+	{
+		copy = new char[strlen(this->name) + 1];
+		for (int i = 0; i < strlen(this->name) + 1; i++) {
+			copy[i] = this->name[i];
+		}
 	}
+	else {
+		copy = nullptr;
+	}
+	cout << "ce cacat" << endl;
+	cout << "copy: " << copy;
 	return copy;
 }
 
@@ -183,8 +192,44 @@ void Attribute::setStringOnSpecifiedPosition(string s, int i)
 {
 	if (this->stringData != nullptr)
 	{
-		this->stringData[i] = s;
+		string* tempArr = new string[i];
+		for (int u = 0; u < i; u++)
+		{
+			tempArr[u] = this->stringData[u];
+		}
+		delete[] this->stringData;
+
+		this->stringData = new string[i];
+		for (int u = 0; u < i; u++)
+		{
+			this->stringData[u] = tempArr[u];
+		}
+		delete[] tempArr;
 	}
+	else {
+		this->stringData = new string[i+1];
+	}
+	this->stringData[i] = s;
+}
+
+void Attribute::dealocateIntegerData()
+{
+	delete[]this->integerData;
+}
+
+void Attribute::dealocateFloatData()
+{
+	delete[] this->floatData;
+}
+
+void Attribute::dealocateStringData()
+{
+	delete[] this->stringData;
+}
+
+void Attribute::dealocateName()
+{
+	delete[] this->name;
 }
 
 
@@ -239,8 +284,14 @@ void Attribute::setIntOnSpecifiedPosition(int data, int pos)
 		{
 			tempArr[u] = this->integerData[u];
 		}
-		delete[] this->integerData;
+		
 
+		cout << "pos: " << pos<<'\n';
+		for (int i = 0; i <= pos; i++)
+			cout << this->integerData[pos]<<" ";
+
+
+		delete[] this->integerData;
 		this->integerData = new int[pos];
 		for (int u = 0; u < pos; u++)
 		{
@@ -343,8 +394,13 @@ ostream& operator<<(ostream& console, Attribute& a) {
 void Attribute::displayAttributes()
 {
 	int noRows = this->getNoRows();
-	cout << "Column name: " << this->getName() << endl;
-	cout << "Number of rows: " << noRows << endl;
+	if (this->getName() != nullptr)
+	{
+		cout << "Column name: " << this->getName() << endl;
+	}
+	else {
+		cout << "No name" << endl;
+	}
 	cout << "Data Type:" << this->getDatatype() << endl;
 	switch (this->getDatatype())
 	{
@@ -352,7 +408,7 @@ void Attribute::displayAttributes()
 	{
 		for (int i = 0; i < noRows; i++)
 		{
-			cout << endl << this->getIntergerData()[i] << endl;
+			cout << endl<<i<<": " << this->getIntergerData()[i] << endl;
 		}
 	}
 	break;
@@ -368,7 +424,7 @@ void Attribute::displayAttributes()
 	{
 		for (int i = 0; i < noRows; i++)
 		{
-			cout << endl << this->getStringData()[i] << endl;
+			cout << endl <<i<<": "<< this->getStringData()[i] << endl;
 		}
 	}
 	break;
@@ -380,4 +436,12 @@ void Attribute::displayAttributes()
 	{
 	}
 	cout << "-----------------------------------" << endl;
+}
+
+Attribute::~Attribute()
+{
+	delete[] integerData;
+	delete[] floatData;
+	delete[] stringData;
+	delete[] name;
 }

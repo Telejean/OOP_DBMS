@@ -40,10 +40,17 @@ public:
 	void setIntOnSpecifiedPosition(int n, int i);
 	void setFloatOnSpecifiedPosition(float f, int i);
 	void setStringOnSpecifiedPosition(string s, int i);
+	
+	void dealocateIntegerData();
+	void dealocateFloatData();
+	void dealocateStringData();
+	void dealocateName();
 
 	void saveInFile(char* filename, ostream f);
 
 	void operator=(Attribute& attribute);
 	friend ostream& operator<<(ostream& console, Attribute& a);
 	void displayAttributes();
+
+	~Attribute();
 };
