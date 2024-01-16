@@ -77,8 +77,6 @@ char* Attribute::getName() {
 	else {
 		copy = nullptr;
 	}
-	cout << "ce cacat" << endl;
-	cout << "copy: " << copy;
 	return copy;
 }
 
@@ -101,6 +99,22 @@ int* Attribute::getIntergerData()
 	return copy;
 }
 
+string* Attribute::getStringData()
+{
+	string* copy;
+	if (this->stringData != nullptr)
+	{
+		copy = new string[this->noRows];
+		for (int i = 0; i < this->noRows; i++)
+			copy[i] = this->stringData[i];
+	}
+	else {
+		copy = nullptr;
+	}
+
+	return copy;
+}
+
 float* Attribute::getFloatData()
 {
 	float* copy;
@@ -117,21 +131,7 @@ float* Attribute::getFloatData()
 	return copy;
 }
 
-string* Attribute::getStringData()
-{
-	string* copy;
-	if (this->stringData != nullptr)
-	{
-		copy = new string[this->noRows];
-		for (int i = 0; i < this->noRows; i++)
-		copy[i] = this->stringData[i];
-	}
-	else {
-		copy = nullptr;
-	}
 
-	return copy;
-}
 
 int Attribute::getNoRows()
 {
@@ -154,30 +154,63 @@ void Attribute::setDatatype(Datatype type) {
 	this->type = type;
 }
 void Attribute::setIntegerData(int* integer) {
-	this->integerData = new int[noRows];
-	if (this->integerData != nullptr) {
+	if (integer != nullptr) {
+		if (this->integerData != nullptr)
+		{
+			delete[] this->integerData;
+		}
+		this->integerData = new int[noRows];
+
 		for (int i = 0; i < this->noRows; i++) {
 			this->integerData[i] = integer[i];
 		}
 	}
 	else {
-		throw exception("No integer data");
+		this->integerData = nullptr;
 	}
 
 }
 
 void Attribute::setStringData(string* stringData) {
-	this->stringData = new string[this->noRows];
-	if (this->stringData != nullptr) {
-		for (int i = 0; i < this->noRows; i++) {
-			this->stringData[i] = stringData[i];
+	if (stringData != nullptr)
+	{
+		if (this->noRows > 0)
+		{
+			if (this->stringData != nullptr)
+			{
+				delete[] this->stringData;
+			}
+			this->stringData = new string[this->noRows];
+
+			for (int i = 0; i < this->noRows; i++) {
+				this->stringData[i] = stringData[i];
+			}
 		}
 	}
 	else {
-		throw exception("No string data");
+		this->stringData = nullptr;
+	}
+
+
+}
+
+void Attribute::setFloatData(float* f) {
+	if (f != nullptr)
+	{
+		if (this->floatData == nullptr)
+			delete[] this->floatData;
+
+		this->floatData = new float[noRows];
+		for (int i = 0; i < this->noRows; i++) {
+			this->floatData[i] = f[i];
+		}
+	}
+	else {
+		this->floatData = nullptr;
 	}
 
 }
+
 
 
 void Attribute::setFloatOnSpecifiedPosition(float f, int i)
@@ -199,7 +232,7 @@ void Attribute::setStringOnSpecifiedPosition(string s, int i)
 		}
 		delete[] this->stringData;
 
-		this->stringData = new string[i];
+		this->stringData = new string[i+1];
 		for (int u = 0; u < i; u++)
 		{
 			this->stringData[u] = tempArr[u];
@@ -207,7 +240,7 @@ void Attribute::setStringOnSpecifiedPosition(string s, int i)
 		delete[] tempArr;
 	}
 	else {
-		this->stringData = new string[i+1];
+		this->stringData = new string[i + 1];
 	}
 	this->stringData[i] = s;
 }
@@ -232,14 +265,11 @@ void Attribute::dealocateName()
 	delete[] this->name;
 }
 
-
-
-
 void Attribute::setName(char* name) {
 	if (name != nullptr)
 	{
-		if(this->name!=nullptr)
-		delete[] this->name;
+		if (this->name != nullptr)
+			delete[] this->name;
 		this->name = new char[strlen(name) + 1];
 		strcpy(this->name, name);
 	}
@@ -248,7 +278,6 @@ void Attribute::setName(char* name) {
 	}
 
 }
-
 
 void Attribute::setNoRows(int n) {
 	if (this->noRows >= 0) {
@@ -261,38 +290,19 @@ void Attribute::setNoRows(int n) {
 	}
 }
 
-void Attribute::setFloatData(float* f) {
-	this->floatData = new float[noRows];
-	if (this->floatData != nullptr) {
-		for (int i = 0; i < this->noRows; i++) {
-			this->floatData[i] = f[i];
-		}
-	}
-	else {
-		throw exception("No float data");
-	}
-
-}
-
 
 void Attribute::setIntOnSpecifiedPosition(int data, int pos)
 {
 	if (this->integerData != nullptr)
 	{
-		int* tempArr = new int[pos];
+		int* tempArr = new int[pos + 1];
 		for (int u = 0; u < pos; u++)
 		{
 			tempArr[u] = this->integerData[u];
 		}
-		
-
-		cout << "pos: " << pos<<'\n';
-		for (int i = 0; i <= pos; i++)
-			cout << this->integerData[pos]<<" ";
-
 
 		delete[] this->integerData;
-		this->integerData = new int[pos];
+		this->integerData = new int[pos + 1];
 		for (int u = 0; u < pos; u++)
 		{
 			this->integerData[u] = tempArr[u];
@@ -300,14 +310,12 @@ void Attribute::setIntOnSpecifiedPosition(int data, int pos)
 		delete[] tempArr;
 	}
 	else {
-		this->integerData = new int[pos];
+		this->integerData = new int[pos + 1];
 	}
 	//cout << "pos: "<<pos<<"  value: "<<data<<endl;
-		this->integerData[pos] = data;
+	this->integerData[pos] = data;
 
 }
-
-
 
 
 void Attribute::saveInFile(char* filename, ostream f)
@@ -350,44 +358,49 @@ void Attribute::saveInFile(char* filename, ostream f)
 
 void Attribute::operator=(Attribute& a)
 {
-	this->name = a.name;
-	this->type = a.type;
+	this->setNoRows(a.getNoRows());
+	this->setDatatype(a.getDatatype());
+	this->setFloatData(a.getFloatData());
+	this->setIntegerData(a.getIntergerData());
+	this->setStringData(a.getStringData());
+	this->setName(a.getName());
+	this->setMaxRows(a.getMaxRows());
 }
 
 ostream& operator<<(ostream& console, Attribute& a) {
-		
+
 	console << a.getName() << endl;
 	switch (a.getDatatype())
+	{
+	case INTEGER:
+	{
+		for (int i = 0; i < a.getNoRows(); i++)
 		{
-		case INTEGER:
-		{
-			for (int i = 0; i <a.getNoRows(); i++)
-			{
-				console <<endl<< a.getIntergerData()[i];
-			}
+			console << endl << a.getIntergerData()[i];
+		}
 
-		}
-		break;
-		case REAL:
+	}
+	break;
+	case REAL:
+	{
+		for (int i = 0; i < a.getNoRows(); i++)
 		{
-			for (int i = 0; i < a.getNoRows(); i++)
-			{
-				console <<endl<< a.getFloatData()[i];
-			}
+			console << endl << a.getFloatData()[i];
 		}
-		break;
-		case TEXT:
+	}
+	break;
+	case TEXT:
+	{
+		for (int i = 0; i < a.getNoRows(); i++)
 		{
-			for (int i = 0; i < a.getNoRows(); i++)
-			{
-				console <<endl<< a.getStringData()[i];
-			}
+			console << endl << a.getStringData()[i];
 		}
+	}
+	break;
+	default:
+		throw exception("Invalid Data Type in Attribute");
 		break;
-		default:
-			throw exception("Invalid Data Type in Attribute");
-			break;
-		}
+	}
 	return console;
 }
 
@@ -401,30 +414,51 @@ void Attribute::displayAttributes()
 	else {
 		cout << "No name" << endl;
 	}
-	cout << "Data Type:" << this->getDatatype() << endl;
+	cout << "Data Type:";
 	switch (this->getDatatype())
 	{
 	case INTEGER:
 	{
-		for (int i = 0; i < noRows; i++)
+		cout << " Integer" << endl;
+		if (this->getIntergerData() != nullptr)
 		{
-			cout << endl<<i<<": " << this->getIntergerData()[i] << endl;
+			for (int i = 0; i < noRows; i++)
+			{
+				cout << endl << i << ": " << this->getIntergerData()[i] << endl;
+			}
 		}
+		else {
+			cout << "NULL" << endl;
+		}
+
 	}
 	break;
 	case REAL:
 	{
-		for (int i = 0; i < noRows; i++)
+		cout << " Real" << endl;
+
+		if (this->getFloatData() != nullptr)
 		{
-			cout << endl << this->getFloatData()[i] << endl;
+			for (int i = 0; i < noRows; i++)
+			{
+				cout << endl << this->getFloatData()[i] << endl;
+			}
 		}
+		else {
+			cout << "NULL" << endl;
+		}
+
 	}
 	break;
 	case TEXT:
 	{
-		for (int i = 0; i < noRows; i++)
-		{
-			cout << endl <<i<<": "<< this->getStringData()[i] << endl;
+		if (this->getStringData() != nullptr)
+			for (int i = 0; i < noRows; i++)
+			{
+				cout << endl << i << ": " << this->getStringData()[i] << endl;
+			}
+		else {
+			cout << "NULL" << endl;
 		}
 	}
 	break;
@@ -432,9 +466,7 @@ void Attribute::displayAttributes()
 		throw exception("Invalid Data Type in Attribute");
 		break;
 	}
-	for (int i = 0; i < this->getNoRows(); i++)
-	{
-	}
+
 	cout << "-----------------------------------" << endl;
 }
 

@@ -52,6 +52,8 @@ int main()
 	string userInput;
 	Instructions instruction;
 	COMMAND_TYPES command = UNDEFINED;
+	Table tableInsert;
+
 
 	while (command != EXIT)
 	{
@@ -75,7 +77,7 @@ int main()
 			create.parseUserInput(userInput);
 			create.displayAll();
 			tabel = create;
-			tabel.displayTable();
+		//	tabel.displayTable();
 			tabel.saveTable();
 
 		}break;
@@ -92,19 +94,14 @@ int main()
 		}break;
 		case(INSERT):
 		{
-			Table tableInsert;
 			insert.parseUserInput(userInput);
-			insert >> tabel;
-			tabel.displayTable();
-	    //	tableInsert.readTable(insert.getIdentifier());
-		//	tableInsert.displayTable();
 
-		//	insert >> tableInsert;
+			tableInsert.readTable(insert.getIdentifier());
+			tableInsert.displayTable();
 
-		//	tableInsert.saveTable();
+			insert >> tableInsert;
 
-
-
+        	tableInsert.saveTable();
 		}break;
 		case(SELECT):
 		{
