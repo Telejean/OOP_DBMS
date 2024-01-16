@@ -34,8 +34,23 @@ char* Table::getName() {
 
 }
 Attribute* Table::getAttribute() {
-	return this->attributes;
+	Attribute* copy;
+	if (this->attributes != nullptr)
+	{
+		copy = new Attribute[this->noAttributes];
+		for (int i = 0; i < noAttributes; i++)
+		{
+			copy[i] = this->attributes[i];
+		}
+
+	}
+	else {
+		copy = nullptr;
+	}
+
+	return copy;
 }
+
 int Table::getNoAttributes() {
 	return noAttributes;
 }
@@ -377,7 +392,7 @@ void Table::readTable(string tableName)
 
 void Table::displayTable()
 {
-	cout << "Tabel name: " << this->getName() << endl;
+	cout << "TABEL NAME: " << this->getName() << endl<<endl;
 	cout << "Number of columns: " << this->getNoAttributes() << endl;
 	for (int i = 0; i < this->getNoAttributes(); i++)
 	{
@@ -393,42 +408,49 @@ ostream& operator>>(Insert& ins, Table& t)
 	int noAttributes= t.getNoAttributes();
 	int noRows = t.getAttribute()->getNoRows();
 	noRows++;
-
+	Attribute* attributes = new Attribute[noAttributes];
+	attributes = t.getAttribute();
 	for (int i = 0; i < noAttributes; i++)
 	{
-		t.getAttribute()[i].setNoRows(noRows);
+		attributes[i].setNoRows(noRows);
+		//cout << "Attribute " << i << " noRows:" << attributes[i].getNoRows() << endl;
 
-		switch (t.getAttribute()[i].getDatatype())
+		switch (attributes[i].getDatatype())
 		{
 		case INTEGER:
 		{
-			int intData= stoi(ins.getParams()[i]);
-			t.getAttribute()[i].setIntOnSpecifiedPosition(intData, noRows-1);
-			//cout << "intData-a: " << intData << " ";
-			//cout << "   testpt2: " << t.getAttribute()[i].getIntergerData()[noRows-1];
+			int intData = stoi(ins.getParams()[i]);
+			attributes[i].setIntOnSpecifiedPosition(intData, noRows - 1);
+			cout << "intData-a: " << intData << " ";
+			cout << "   testpt2: " << attributes[i].getIntergerData()[noRows - 1] << '\n';
 		}
 		break;
 		case REAL:
 		{
 			int realData = stof(ins.getParams()[i]);
-			t.getAttribute()[i].setFloatOnSpecifiedPosition(realData, noRows-1);
+			attributes[i].setFloatOnSpecifiedPosition(realData, noRows - 1);
 		}
 		break;
 		case TEXT:
-		{			
+		{
 			string stringData = ins.getParams()[i];
-			t.getAttribute()[i].setStringOnSpecifiedPosition(stringData, noRows-1);
-		//	cout << "stringData: " << stringData<<" ";
+			attributes[i].setStringOnSpecifiedPosition(stringData, noRows - 1);
+			//cout << "stringData: " << stringData<<" "<<"test2: "<< attributes[i].getStringData()[noRows-1];
 		}
 		break;
 
-		cout << endl << "Insert succesfull" << endl<<endl<<endl;
+		cout << endl << "Insert succesfull" << endl << endl << endl;
 		default:
 			throw exception("Invalid Data Type");
 			break;
 		}
-		cout << endl;
+
+		t.attributes[i] = attributes[i];
 	}
+
+	cout << "attributes[i] " << attributes[0].getIntergerData()[0] << '\n';
+	cout<<"t.getAttribute()[1] "<<t.getAttribute()[0].getIntergerData()[0]<<'\n';
+
 }
 
 ostream& operator<<(ostream& console, Table& t)

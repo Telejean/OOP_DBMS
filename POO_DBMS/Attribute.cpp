@@ -92,6 +92,24 @@ int* Attribute::getIntergerData()
 	return copy;
 }
 
+string* Attribute::getStringData()
+{
+	string* copy;
+	if (this->stringData != nullptr)
+	{
+		copy = new string[this->noRows];
+		for (int i = 0; i < this->noRows; i++)
+		{
+			copy[i] = this->stringData[i];
+		}
+	}
+	else {
+		copy = nullptr;
+	}
+
+	return copy;
+}
+
 float* Attribute::getFloatData()
 {
 	float* copy;
@@ -108,21 +126,7 @@ float* Attribute::getFloatData()
 	return copy;
 }
 
-string* Attribute::getStringData()
-{
-	string* copy;
-	if (this->stringData != nullptr)
-	{
-		copy = new string[this->noRows];
-		for (int i = 0; i < this->noRows; i++)
-		copy[i] = this->stringData[i];
-	}
-	else {
-		copy = nullptr;
-	}
 
-	return copy;
-}
 
 int Attribute::getNoRows()
 {
@@ -145,28 +149,43 @@ void Attribute::setDatatype(Datatype type) {
 	this->type = type;
 }
 void Attribute::setIntegerData(int* integer) {
-	this->integerData = new int[noRows];
-	if (this->integerData != nullptr) {
-		for (int i = 0; i < this->noRows; i++) {
-			this->integerData[i] = integer[i];
+	if (integer != nullptr)
+	{
+		this->integerData = new int[noRows];
+		if (this->integerData != nullptr) {
+			for (int i = 0; i < this->noRows; i++) {
+				this->integerData[i] = integer[i];
+			}
+		}
+		else {
+			throw exception("No integer data");
 		}
 	}
 	else {
-		throw exception("No integer data");
+		this->integerData = nullptr;
 	}
+
 
 }
 
 void Attribute::setStringData(string* stringData) {
-	this->stringData = new string[this->noRows];
-	if (this->stringData != nullptr) {
-		for (int i = 0; i < this->noRows; i++) {
-			this->stringData[i] = stringData[i];
+	if (stringData != nullptr)
+	{
+		this->stringData = new string[this->noRows];
+		if (this->stringData != nullptr) {
+			for (int i = 0; i < this->noRows; i++) {
+				cout << "used: " << stringData[i];
+				this->stringData[i] = stringData[i];
+			}
+		}
+		else {
+			throw exception("No string data");
 		}
 	}
 	else {
-		throw exception("No string data");
+		this->stringData = nullptr;
 	}
+
 
 }
 
@@ -183,8 +202,25 @@ void Attribute::setStringOnSpecifiedPosition(string s, int i)
 {
 	if (this->stringData != nullptr)
 	{
-		this->stringData[i] = s;
+		string* tempArr = new string[i+1];
+		for (int u = 0; u < i; u++)
+		{
+			tempArr[u] = this->stringData[u];
+		}
+		delete[] this->stringData;
+
+		this->stringData = new string[i+1];
+		for (int u = 0; u < i; u++)
+		{
+			this->stringData[u] = tempArr[u];
+		}
+		delete[] tempArr;
 	}
+	else {
+		this->stringData = new string[i+1];
+	}
+	//cout << "pos: "<<pos<<"  value: "<<data<<endl;
+	this->stringData[i] = s;
 }
 
 
@@ -234,14 +270,14 @@ void Attribute::setIntOnSpecifiedPosition(int data, int pos)
 {
 	if (this->integerData != nullptr)
 	{
-		int* tempArr = new int[pos];
+		int* tempArr = new int[pos+1];
 		for (int u = 0; u < pos; u++)
 		{
 			tempArr[u] = this->integerData[u];
 		}
 		delete[] this->integerData;
 
-		this->integerData = new int[pos];
+		this->integerData = new int[pos+1];
 		for (int u = 0; u < pos; u++)
 		{
 			this->integerData[u] = tempArr[u];
@@ -249,7 +285,7 @@ void Attribute::setIntOnSpecifiedPosition(int data, int pos)
 		delete[] tempArr;
 	}
 	else {
-		this->integerData = new int[pos];
+		this->integerData = new int[pos+1];
 	}
 	//cout << "pos: "<<pos<<"  value: "<<data<<endl;
 		this->integerData[pos] = data;
@@ -299,8 +335,13 @@ void Attribute::saveInFile(char* filename, ostream f)
 
 void Attribute::operator=(Attribute& a)
 {
-	this->name = a.name;
-	this->type = a.type;
+	this->setDatatype(a.getDatatype());
+	this->setFloatData(a.getFloatData());
+	this->setIntegerData(a.getIntergerData());
+	this->setStringData(a.getStringData());
+	this->setMaxRows(a.getMaxRows());
+	this->setNoRows(a.getNoRows());
+	this->setName(a.getName());
 }
 
 ostream& operator<<(ostream& console, Attribute& a) {

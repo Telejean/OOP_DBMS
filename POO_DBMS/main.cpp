@@ -74,9 +74,9 @@ int main()
 		case(CREATE):
 		{
 			create.parseUserInput(userInput);
-			create.displayAll();
+			//create.displayAll();
 			tabel = create;
-			tabel.displayTable();
+		   //tabel.displayTable();
 			tabel.saveTable();
 
 		}break;
@@ -99,7 +99,7 @@ int main()
 			tableInsert.readTable(insert.getIdentifier());
 
 			insert >> tableInsert;
-			tableInsert.saveTable();
+			//tableInsert.saveTable();
 
 			tableInsert.displayTable();
 
