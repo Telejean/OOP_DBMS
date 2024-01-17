@@ -162,6 +162,7 @@ void Table::saveTable()
 		int* integerData = new int[noRows];
 		float* realData= new float[noRows];
 		string* stringData= new string[noRows];
+		int sizeOfString;
 
 		for (int i = 0; i < noAttributes; i++)
 		{
@@ -199,7 +200,7 @@ void Table::saveTable()
 				{
 				for (int j = 0; j < noRows; j++)
 					{
-					cout << "intData: " << integerData[j] << " ";
+					cout << "save: intData: " << integerData[j] << " "<<tableFile.tellp();
 					tableFile.write((char*)&integerData[j], sizeof(int));
 					}
 				}
@@ -222,8 +223,14 @@ void Table::saveTable()
 				if (stringData != nullptr)
 				for (int j = 0; j < noRows; j++)
 				{
-					//cout << "stringData: " << stringData << " ";
-					tableFile.write(stringData[j].c_str(), sizeof(string));
+					sizeOfString = stringData[j].size()+1;
+					cout << tableFile.tellp() << " ";
+					//cout << stringData[j] << " " << sizeOfString<<endl;
+					//cout << stringData[j].c_str() << " " << sizeof(stringData[j].c_str()) << endl;
+					tableFile.write((char*)&sizeOfString, sizeof(int));
+					tableFile.write(stringData[j].c_str(), sizeOfString);
+					//cout << "stringData: " << stringData[j].size() << " " << sizeof(stringData[j].c_str()) << " " << tableFile.tellp() << endl;
+					cout << stringData[j] << " " << tableFile.tellp() << endl;
 				}
 
 			}
@@ -239,7 +246,7 @@ void Table::saveTable()
 		cout << "File saved succesfully"<<endl << endl;
 	}
 	else {
-		cout << "File couldn not be opened";
+		cout << "File could not be opened";
 	}
 
 
@@ -248,6 +255,7 @@ void Table::saveTable()
 
 void Table::readTable(string tableName)
 {
+	cout << tableName<<endl;
 	ifstream tableFile(tableName, ios::binary);
 	if (tableFile) {
 
@@ -298,6 +306,8 @@ void Table::readTable(string tableName)
 
 		delete[] attributeName;
 		attributeName = nullptr;
+		int sizeOfString;
+
 		switch (static_cast<Datatype>(dataType))
 		{
 		case INTEGER:
@@ -305,9 +315,9 @@ void Table::readTable(string tableName)
 			for (int j = 0; j < noRows; j++)
 			{
 				tableFile.read((char*)&intArr[j], sizeof(int));
-				//cout << "intArr " << j << ": " << intArr[j] << " ";
+				cout << "read: intArr " << j << ": " << intArr[j] << " "<<tableFile.tellg()<<endl;
 			}
-			cout << endl;
+			this->attributes[0].setIntegerData(intArr);
 		}
 		break;
 		case REAL:
@@ -316,22 +326,27 @@ void Table::readTable(string tableName)
 			{
 				tableFile.read((char*)&floatArr[j], sizeof(float));
 			}
+			this->attributes[0].setFloatData(floatArr);
+
 		}
 		break;
 		case TEXT:
 		{
 			for (int j = 0; j < noRows; j++)
 			{
-				tableFile.read((char*)&stringArr[j], sizeof(string));
-				//cout << "stringArr " << j << ": " << stringArr[j] << " ";
+				tableFile.read((char*)&sizeOfString, sizeof(int));
+				tableFile.read((char*)&stringArr[j], sizeof(char)*sizeOfString);
+				cout << "stringArr " << j << ": " << stringArr[j] << " ";
 			}
-			cout << endl;
+			this->attributes[0].setStringData(stringArr);
 		}
 		break;
 		default:
 			throw exception("Invalid Data Type");
 			break;
 		}
+
+		//delete[] stringArr;
 
 		for (int i = 1; i < noAttributes; i++)
 		{
@@ -365,9 +380,10 @@ void Table::readTable(string tableName)
 					for (int j = 0; j < noRows; j++)
 					{
 						tableFile.read((char*)&intArr[j], sizeof(int));
-						//cout<<"intArr "<<j<<": " << intArr[j] << " ";
+						cout<<"read: intArr "<<j<<": " << intArr[j] << " "<<tableFile.tellg()<<endl;
 					}
-					cout << endl;
+					this->attributes[i].setIntegerData(intArr);
+
 				}
 				break;
 				case REAL:
@@ -377,6 +393,8 @@ void Table::readTable(string tableName)
 					{
 						tableFile.read((char*)&floatArr[j] , sizeof(float));
 					}
+					this->attributes[i].setFloatData(floatArr);
+
 				}
 				break;
 				case TEXT:
@@ -384,10 +402,12 @@ void Table::readTable(string tableName)
 
 					for (int j = 0; j < noRows; j++)
 					{
-						tableFile.read((char*)&stringArr[j], sizeof(string));
-						//cout << "stringArr " << j << ": " << stringArr[j] << " ";
+						string s,b;
+						tableFile.read((char*)&sizeOfString, sizeof(int));
+						tableFile.read(&b[0], sizeOfString);
+					    stringArr[j]= b.c_str();
 					}
-					cout << endl;
+					this->attributes[i].setStringData(stringArr);
 				}
 				break;
 				default:

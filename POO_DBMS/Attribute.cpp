@@ -452,6 +452,7 @@ void Attribute::displayAttributes()
 	break;
 	case TEXT:
 	{
+		cout << " Text" << endl;
 		if (this->getStringData() != nullptr)
 			for (int i = 0; i < noRows; i++)
 			{

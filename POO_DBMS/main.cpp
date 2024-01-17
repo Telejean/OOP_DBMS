@@ -53,6 +53,7 @@ int main()
 	Instructions instruction;
 	COMMAND_TYPES command = UNDEFINED;
 	Table tableInsert;
+	Table tableRead;
 
 
 	while (command != EXIT)
@@ -75,11 +76,10 @@ int main()
 		case(CREATE):
 		{
 			create.parseUserInput(userInput);
-			create.displayAll();
+			//create.displayAll();
 			tabel = create;
-		//	tabel.displayTable();
+			//tabel.displayTable();
 			tabel.saveTable();
-
 		}break;
 		case(DROP):
 		{
@@ -89,19 +89,22 @@ int main()
 		case(DISPLAY):
 		{
 			display.parseUserInput(userInput);
-			cout << display;
+			tableRead.readTable(display.getIdentifier());
+			cout << "testInMain " << tableRead.getAttribute()[0].getIntergerData()[0] << endl;
+			tableRead.displayTable();
 
 		}break;
 		case(INSERT):
 		{
 			insert.parseUserInput(userInput);
-
 			tableInsert.readTable(insert.getIdentifier());
-			tableInsert.displayTable();
 
 			insert >> tableInsert;
 
+			//tableInsert.displayTable();
         	tableInsert.saveTable();
+
+
 		}break;
 		case(SELECT):
 		{
