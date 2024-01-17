@@ -226,7 +226,7 @@ void Create::parseUserInput(string userInput)
 
 	setOfParams = userInput.substr(0, userInput.find(')'));
 	userInput.erase(0, setOfParams.size() + 1);
-	setOfParams.erase(0, setOfParams.find('(') + 1);
+	setOfParams.erase(0, setOfParams.find('(') + 2);
 	string token;
 
 	token = setOfParams.substr(0, setOfParams.find(','));

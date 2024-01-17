@@ -10,6 +10,7 @@ class Table {
 	char* name;
 	int noAttributes;
 	Attribute* attributes;
+
 public:
 	Table();
 	Table(char name[], Attribute* attributes, int noAttributes);

@@ -150,6 +150,7 @@ void Insert::parseUserInput(string userInput)
 	}
 
 }
+
 void Insert::displayAll()
 {
 	cout << "Variant:" << this->variant << '\n'<<"Identifier:"<<this->identifier<<'\n'<<"Params:";
